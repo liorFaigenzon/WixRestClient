@@ -6,7 +6,7 @@ dragDropSampleApp.factory("draggableData", function () {
         var data = [
             {
                 name: "table",
-                img: "table.jpg"
+                img: "table.png"
         }, {
                 name: "chair",
                 img: "chair.jpg"
