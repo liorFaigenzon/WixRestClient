@@ -1,175 +1,172 @@
 <!DOCTYPE html>
 <html>
-
-  <head>
-	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<head>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/app.js"></script>
-	
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/style.css" />  
-	
-	<style wix-style ng-non-bindable>
-		.label {
-				text-align: left;   
-		}
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style wix-style ng-non-bindable>
+        .label {
+            text-align: left;
+        }
     </style>
-	<script>
-	function selectChair(id)
-	{
-		//if (document.getElementById(id.value).style.backgroundImage.includes('Chair'))
-		if (document.getElementById(id).style.boxShadow == '')
-		{
-			document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
-			var para = document.createElement("p");
-			var node = document.createTextNode(id);
-			para.appendChild(node);
-			var element = document.getElementById("mySelect");
-			if (para.value !="")
-			{
-				element.appendChild(para);
-				//selections.push(id);
-			}		
-		}
-		else
-		{
-			document.getElementById(id).style.boxShadow = '';
-		}
-	}
-	// Accordion
-	$(function() {
-		var Accordion = function(el, multiple) {
-			this.el = el || {};
-			this.multiple = multiple || false;
+    <script>
+        function selectChair(id) {
+            //if (document.getElementById(id.value).style.backgroundImage.includes('Chair'))
+            if (document.getElementById(id).style.boxShadow == '') {
+                document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
+                var para = document.createElement("p");
+                var node = document.createTextNode(id);
+                para.appendChild(node);
+                var element = document.getElementById("mySelect");
+                if (para.value != "") {
+                    element.appendChild(para);
+                    //selections.push(id);
+                }
+            }
+            else {
+                document.getElementById(id).style.boxShadow = '';
+            }
+        }
+        // Accordion
+        $(function () {
+            var Accordion = function (el, multiple) {
+                this.el = el || {};
+                this.multiple = multiple || false;
 
-			// Variables privadas
-			var links = this.el.find('.link');
-			// Evento
-			links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
-		}
+                // Variables privadas
+                var links = this.el.find('.link');
+                // Evento
+                links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown)
+            }
 
-		Accordion.prototype.dropdown = function(e) {
-			var $el = e.data.el;
-				$this = $(this),
+            Accordion.prototype.dropdown = function (e) {
+                var $el = e.data.el;
+                $this = $(this),
 				$next = $this.next();
 
-			$next.slideToggle();
-			$this.parent().toggleClass('open');
+                $next.slideToggle();
+                $this.parent().toggleClass('open');
 
-			if (!e.data.multiple) {
-				$el.find('.submenu').not($next).slideUp().parent().removeClass('open');
-			};
-		}	
+                if (!e.data.multiple) {
+                    $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+                };
+            }
 
-		var accordion = new Accordion($('#accordion'), false);
-	});
-	</script>
-  </head>
+            var accordion = new Accordion($('#accordion'), false);
+        });
+    </script>
+</head>
+<body data-ng-app="wixRestClientApp">
+    <input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> I am admin<br>
 
-  <body data-ng-app="wixRestClientApp">
-	<input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> I am admin<br>
-    
-    <div class="outerContainer" data-ng-controller="MainController">
-        
-		<div id="userContainer" class="col-xs-12" ng-hide="isAdmin">
-			<form action="#someurl" id="mapLoader">
-			<p>
-				<h2 class="">Welcome to Restaurant Reservations!</h2>
-			</p>
-				<label for="dateInput" ><h4>Enter a date:</h4></label>
-				<div id="dateInput" class="input-field col-xs-9">
-				<input class="form-control" type="date" name="bday" max="2017-12-31">
-				</div>
-				<br>
-				
-				<label for="timeInput" ><h4>Enter time:</h4></label>
-				<div id="timeInput" class="input-field col-xs-9">
-				<input class="form-control" type="time">
-				</div>
-				<br>
-				
-				<label for="timeInput" ><h4>Load map:</h4></label>
-				<div id="Load" class="input-field col-xs-9">
-					<input type="button" value="Load" class="btn btn-default"><br>
-				</div>
-				<br>
-			</form>
-			<br>
-			<form action="#someurl" id="Reservation">
-				<label for="timeInput" ><h4>Order:</h4></label>
-				<div id="nameInput" class="input-field col-xs-9">
-					<input class="form-control" type="text" ng-model="yourName" placeholder="Enter a name here">
-				</div>
-				<br>
-				
-				<label for="quantityInput" ><h4>Quantity:</h4></label>
-				<div id="quantityInput" class="input-field col-xs-9">
-					<input class="form-control" type="number" name="quantity" min="1" max="12">
-				</div>
-				<br>
-				
-				<form action="#someurl" id="mySelect" class="col-xs-12" ></form><br>
-				<label for="lblReserve" ><h4>Reserve:</h4></label>
-				<div id="Tables" class="input-field col-xs-9">
-					
-				</div>
-				<div id="Reserve" class="input-field col-xs-9">
-					<input type="button" value="Reserve" class="btn btn-default"><br>
-				</div>
-			</form>
+    <div class="outerContainer container" data-ng-controller="MainController">
+
+        <div id="userContainer" class="col-xs-5" ng-hide="isAdmin">
+            <form action="#someurl" id="mapLoader">
+                <p>
+                    <h2 class="">Welcome to Restaurant Reservations!</h2>
+                </p>
+                <div class="row">
+                    <label for="dateInput" class="col-xs-4">
+                        <h4>Enter a date:</h4>
+                    </label>
+                    <div id="dateInput" class="input-field col-xs-8">
+                        <input class="form-control" type="date" name="bday" max="2017-12-31">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="timeInput" class="col-xs-4"><h4>Enter time:</h4></label>
+                    <div id="timeInput" class="input-field col-xs-8">
+                        <input class="form-control" type="time">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="timeInput" class="col-xs-4"><h4>Load map:</h4></label>
+                    <div id="Load" class="input-field col-xs-8">
+                        <input type="button" value="Load" class="btn btn-default  col-xs-4">
+                    </div>
+                </div>
+            </form>
+            <br />
+            <form action="#someurl" id="Reservation">
+                <div class="row">
+                    <label for="timeInput" class="col-xs-4"><h4>Order:</h4></label>
+                    <div id="nameInput" class="input-field col-xs-8">
+                        <input class="form-control" type="text" ng-model="yourName" placeholder="Enter a name here">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="quantityInput" class="col-xs-4"><h4>Quantity:</h4></label>
+                    <div id="quantityInput" class="input-field col-xs-8">
+                        <input class="form-control" type="number" name="quantity" min="1" max="12">
+                    </div>
+                </div>
+
+                <form action="#someurl" id="mySelect" class="col-xs-12"></form>
+                <div class="row col-xs-12">
+                    <label for="lblReserve" class="pull-left"><h4>Reserve:</h4></label>
+                </div>
+                <div id="Reserve" class="input-field row">
+                    <input type="button" value="Reserve" class="btn btn-default col-xs-4 col-xs-push-4"><br>
+                </div>
+            </form>
         </div>
-		
-		<div id="draggableContainer" class="col-xs-12" ng-show="isAdmin">
-			<form action="#someurl" id="mapLoader">
-				<p>
-					<h2 class="">Map Builder:</h2>
-				</p>
-				<ul id="accordion" class="accordion">
-					<li class="default open">
-						<div class="link"><i class="fa fa-code"></i>Tables ><i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							<div data-ng-repeat="item in draggableArray_tables">
-								<div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div>
-							</div>
-						</ul>
-					</li>
-					<li class="default">
-						<div class="link"><i class="fa fa-paint-brush"></i>Chairs ><i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							<div data-ng-repeat="item in draggableArray_chairs">
-								<div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div>
-							</div>
-						</ul>
-					</li>
-					<li>
-						<div class="link"><i class="fa fa-mobile"></i>Miscellaneous ><i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							<div data-ng-repeat="item in draggableArray_misc">
-								<div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div>
-							</div>
-						</ul>
-					</li>
-				</ul>
-				<div id="Save" class="input-field col-xs-9">
-					<input type="button" value="Save" class="btn btn-default"><br>
-				</div>
-			</form>
-        </div>
-		
-        <div id="droppableContainer">
-			
-			<table>
-				<tr data-ng-repeat="i in getNum(gridDef.rowNum)">
-					<td data-ng-repeat="j in getNum(gridDef.colNum)">
-						<div onclick="selectChair(id)" id="{{i}}-{{j}}" dropme data-name="{{bgItem.name}}" backgroundimage="{{bgItem.img}}" ></div>
-					</td>
-				</tr>
-			<table/>			
-        </div>		
-	</div>
-	
-  </body><!--body-->
 
+        <div id="draggableContainer" class="col-xs-5" ng-show="isAdmin">
+            <form action="#someurl" id="mapLoader">
+                <p>
+                    <h2 class="">Map Builder:</h2>
+                </p>
+                <ul id="accordion" class="accordion">
+                    <li class="default open">
+                        <div class="link"><i class="fa fa-code"></i>Tables ><i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu">
+                            <div data-ng-repeat="item in draggableArray_tables">
+                                <div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="default">
+                        <div class="link"><i class="fa fa-paint-brush"></i>Chairs ><i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu">
+                            <div data-ng-repeat="item in draggableArray_chairs">
+                                <div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="default">
+                        <div class="link"><i class="fa fa-mobile"></i>Miscellaneous ><i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu">
+                            <div data-ng-repeat="item in draggableArray_misc">
+                                <div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+                <div id="Save" class="input-field col-xs-4 col-xs-push-5 row">
+                    <input type="button" value="Save" class="btn btn-default"><br>
+                </div>
+            </form>
+        </div>
+
+        <div id="droppableContainer" class="col-xs-7">
+
+            <table>
+                <tr data-ng-repeat="i in getNum(gridDef.rowNum)">
+                    <td data-ng-repeat="j in getNum(gridDef.colNum)">
+                        <div onclick="selectChair(id)" id="{{i}}-{{j}}" dropme data-name="{{bgItem.name}}" backgroundimage="{{bgItem.img}}"></div>
+                    </td>
+                </tr>
+                <table />
+        </div>
+    </div>
+
+</body><!--body-->
 </html>
