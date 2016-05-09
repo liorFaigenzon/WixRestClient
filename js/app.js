@@ -47,6 +47,20 @@ wixRestClientApp.factory("draggable_misc", function () {
 	return data;
 }) //
 
+wixRestClientApp.factory("draggableArray", function () {
+	var data = 
+			 { 
+			"1": {
+				'key': "Misc",  
+				'value': [   
+					{name: "wall", img: "wall.png"},  
+					{name: "square", img: "square.png"}
+				]  
+			},    
+		};
+	return data;
+}) //
+
 wixRestClientApp.factory("droppableData", function () {
     var data = [
         {
@@ -59,13 +73,38 @@ wixRestClientApp.factory("droppableData", function () {
 }); ///
 
 wixRestClientApp.controller("MainController", 
-	["$scope", "draggable_tables", "draggable_chairs", "draggable_misc", "droppableData", "$timeout",
-	function ($scope, draggable_tables, draggable_chairs, draggable_misc, droppableData,$timeout) {
+	["$scope", "draggable_tables", "draggable_chairs","draggableArray", "draggable_misc", "droppableData", "$timeout",
+	function ($scope, draggable_tables, draggable_chairs, draggable_misc,draggableArray, droppableData,$timeout) {
 
     $scope.draggableArray_tables = draggable_tables;
 	$scope.draggableArray_chairs = draggable_chairs;
 	$scope.draggableArray_misc = draggable_misc;
 	
+	$scope.draggableArray =  
+			 {
+			"1": {
+				'key': "Tables",  
+				'value': [   
+					{name: "table", img: "table.png"},  
+					{name: "table", img: "table1.png"},
+					{name: "table", img: "table2.png"}
+				]  
+			},    
+			"2": {
+				'key': "Chairs",  
+				'value': [   
+					{name: "chair", img: "chair.png"},  
+					{name: "chair", img: "chair1.png"}
+				]  
+			},    			
+			"3": {
+				'key': "Misc",  
+				'value': [   
+					{name: "wall", img: "wall.png"},  
+					{name: "square", img: "square.jpg"}
+				]  
+			},    
+		};
     $scope.droppableArray = droppableData;
 
     $scope.draggableArray_tablesLength = $scope.draggableArray_tables.length;

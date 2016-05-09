@@ -15,52 +15,197 @@
             text-align: left;
         }
     </style>
+	
     <script>
+	function reserve()
+{
+	var para = document.createElement("p");
+	var node = document.createTextNode("Table is Reservat!");
+	
+	para.appendChild(node);
+	var element = document.getElementById("mySelect");
+	while(element.firstChild){
+    element.removeChild(element.firstChild);
+}
+	if (para.value !="")
+	{
+		element.appendChild(para);
+	}
+}
         function selectChair(id) {
-            //if (document.getElementById(id.value).style.backgroundImage.includes('Chair'))
-            if (document.getElementById(id).style.boxShadow == '') {
-                document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
-                var para = document.createElement("p");
-                var node = document.createTextNode(id);
-                para.appendChild(node);
-                var element = document.getElementById("mySelect");
-                if (para.value != "") {
-                    element.appendChild(para);
-                    //selections.push(id);
-                }
-            }
-            else {
-                document.getElementById(id).style.boxShadow = '';
-            }
+            if (document.getElementById(id).style.backgroundImage.includes('chair'))
+			{
+				if (document.getElementById(id).style.boxShadow == '') {
+					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
+					var para = document.createElement("p");
+					var node = document.createTextNode(id);
+					para.appendChild(node);
+					var element = document.getElementById("mySelect");
+					if (para.value != "") {
+						element.appendChild(para);
+						//selections.push(id);
+					}
+				}
+				else {
+					document.getElementById(id).style.boxShadow = '';
+				}
+			}           
         }
-        // Accordion
-        $(function () {
-            var Accordion = function (el, multiple) {
-                this.el = el || {};
-                this.multiple = multiple || false;
-
-                // Variables privadas
-                var links = this.el.find('.link');
-                // Evento
-                links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown)
-            }
-
-            Accordion.prototype.dropdown = function (e) {
-                var $el = e.data.el;
-                $this = $(this),
-				$next = $this.next();
-
-                $next.slideToggle();
-                $this.parent().toggleClass('open');
-
-                if (!e.data.multiple) {
-                    $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
-                };
-            }
-
-            var accordion = new Accordion($('#accordion'), false);
-        });
+   
     </script>
+	
+		<style>
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+ul {
+	list-style-type: none;
+}
+
+a {
+	color: #b63b4d;
+	text-decoration: none;
+}
+
+/** =======================
+ * Contenedor Principal
+ ===========================*/
+h1 {
+ 	color: #FFF;
+ 	font-size: 24px;
+ 	font-weight: 400;
+ 	text-align: center;
+ 	margin-top: 80px;
+ }
+
+h1 a {
+ 	color: #c12c42;
+ 	font-size: 16px;
+ }
+
+ .accordion {
+ 	width: 100%;
+ 	max-width: 360px;
+ 	margin: 30px auto 20px;
+ 	background: #FFF;
+ 	-webkit-border-radius: 4px;
+ 	-moz-border-radius: 4px;
+ 	border-radius: 4px;
+ }
+
+.accordion .link {
+	cursor: pointer;
+	display: block;
+	padding: 15px 15px 15px 42px;
+	color: #4D4D4D;
+	font-size: 14px;
+	font-weight: 700;
+	border-bottom: 1px solid #CCC;
+	position: relative;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+.accordion li:last-child .link {
+	border-bottom: 0;
+}
+
+.accordion li i {
+	position: absolute;
+	top: 16px;
+	left: 12px;
+	font-size: 18px;
+	color: #595959;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+.accordion li i.fa-chevron-down {
+	right: 12px;
+	left: auto;
+	font-size: 16px;
+}
+
+.accordion li.open .link {
+	color: #b63b4d;
+}
+
+.accordion li.open i {
+	color: #b63b4d;
+}
+.accordion li.open i.fa-chevron-down {
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.accordion li.default .submenu {display: block;}
+/**
+ * Submenu
+ -----------------------------*/
+ .submenu {
+ 	display: none;
+ 	background: #444359;
+ 	font-size: 14px;
+ }
+
+ .submenu li {
+ 	border-bottom: 1px solid #4b4a5e;
+ }
+
+ .submenu a {
+ 	display: block;
+ 	text-decoration: none;
+ 	color: #d9d9d9;
+ 	padding: 12px;
+ 	padding-left: 42px;
+ 	-webkit-transition: all 0.25s ease;
+ 	-o-transition: all 0.25s ease;
+ 	transition: all 0.25s ease;
+ }
+
+ .submenu a:hover {
+ 	background: #b63b4d;
+ 	color: #FFF;
+ }
+
+</style>
+<script>
+$(function() {
+	var Accordion = function(el, multiple) {
+		this.el = el || {};
+		this.multiple = multiple || false;
+
+		// Variables privadas
+		var links = this.el.find('.link');
+		// Evento
+		links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+	}
+
+	Accordion.prototype.dropdown = function(e) {
+		var $el = e.data.el;
+			$this = $(this),
+			$next = $this.next();
+
+		$next.slideToggle();
+		$this.parent().toggleClass('open');
+
+		if (!e.data.multiple) {
+			$el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+		};
+	}	
+
+	var accordion = new Accordion($('#accordion'), false);
+});
+</script>
 </head>
 <body data-ng-app="wixRestClientApp">
     <input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> I am admin<br>
@@ -87,7 +232,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" ng-hide="true">
                     <label for="timeInput" class="col-xs-4"><h4>Load map:</h4></label>
                     <div id="Load" class="input-field col-xs-8">
                         <input type="button" value="Load" class="btn btn-default  col-xs-4">
@@ -114,7 +259,8 @@
                     <label for="lblReserve" class="pull-left"><h4>Reserve:</h4></label>
                 </div>
                 <div id="Reserve" class="input-field row">
-                    <input type="button" value="Reserve" class="btn btn-default col-xs-4 col-xs-push-4"><br>
+                    <input type="button" onclick="reserve()" value="Reserve" class="btn btn-default col-xs-4 col-xs-push-4"><br>
+					 <form action="#someurl" id="mySelect" class="col-xs-12" ></form><br>
                 </div>
             </form>
         </div>
@@ -125,31 +271,43 @@
                     <h2 class="">Map Builder:</h2>
                 </p>
                 <ul id="accordion" class="accordion">
+				
+				
+					<li class="default open" data-ng-repeat="itemArray in draggableArray">
+						<div class="link"><i class="fa fa-code"></i>{{itemArray.key}} ><i class="fa fa-chevron-down"></i></div>
+						<ul class="submenu">
+							<div data-ng-repeat="item in itemArray.value">
+								<li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li> 
+							</div>
+						</ul>
+					</li>
+				    
+					<!--
                     <li class="default open">
-                        <div class="link"><i class="fa fa-code"></i>Tables ><i class="fa fa-chevron-down"></i></div>
+                        <div class="link"><i class="fa fa-code"></i>Tables<i class="fa fa-chevron-down"></i></div>
                         <ul class="submenu">
                             <div data-ng-repeat="item in draggableArray_tables">
-                                <div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div>
+								<li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li> 
                             </div>
                         </ul>
                     </li>
                     <li class="default">
-                        <div class="link"><i class="fa fa-paint-brush"></i>Chairs ><i class="fa fa-chevron-down"></i></div>
+                        <div class="link"><i class="fa fa-paint-brush"></i>Chairs<i class="fa fa-chevron-down"></i></div>
                         <ul class="submenu">
                             <div data-ng-repeat="item in draggableArray_chairs">
-                                <div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div>
+                               <li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li>
                             </div>
                         </ul>
                     </li>
                     <li class="default">
-                        <div class="link"><i class="fa fa-mobile"></i>Miscellaneous ><i class="fa fa-chevron-down"></i></div>
+                        <div class="link"><i class="fa fa-mobile"></i>Miscellaneous<i class="fa fa-chevron-down"></i></div>
                         <ul class="submenu">
                             <div data-ng-repeat="item in draggableArray_misc">
-                                <div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div>
+                               <li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li>
                             </div>
                         </ul>
                     </li>
-                </ul>
+                </ul>-->
                 <div id="Save" class="input-field col-xs-4 col-xs-push-5 row">
                     <input type="button" value="Save" class="btn btn-default"><br>
                 </div>
@@ -161,7 +319,7 @@
             <table>
                 <tr data-ng-repeat="i in getNum(gridDef.rowNum)">
                     <td data-ng-repeat="j in getNum(gridDef.colNum)">
-                        <div onclick="selectChair(id)" id="{{i}}-{{j}}" dropme data-name="{{bgItem.name}}" backgroundimage="{{bgItem.img}}"></div>
+						<div onclick="selectChair(id)" id="{{i}}-{{j}}" dropme data-name="{{bgItem.name}}" backgroundimage="{{bgItem.img}}"></div>
                     </td>
                 </tr>
                 <table />
