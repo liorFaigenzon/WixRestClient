@@ -37,6 +37,17 @@ div{
     margin:0 auto;
 }
 
+#itemGroup{
+    position: relative;
+    float: left;
+    background:rgba(50,150,240,.5);
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-left: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 #draggableContainer{
     width: 250px;
     height: 840px;

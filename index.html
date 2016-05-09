@@ -135,7 +135,7 @@
 							</div>
 						</ul>
 					</li>
-					<li>
+					<li class="default">
 						<div class="link"><i class="fa fa-paint-brush"></i>Chairs ><i class="fa fa-chevron-down"></i></div>
 						<ul class="submenu">
 							<div data-ng-repeat="item in draggableArray_chairs">
@@ -150,7 +150,11 @@
 								<div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div>
 							</div>
 						</ul>
+					</li>
 				</ul>
+				<div id="Save" class="input-field col-xs-9">
+					<input type="button" value="Save" class="btn btn-default"><br>
+				</div>
 			</form>
         </div>
 		

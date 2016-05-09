@@ -9,10 +9,10 @@ wixRestClientApp.factory("draggable_tables", function () {
                 img: "table.png"
         }, {
                 name: "table1",
-                img: "table1.jpeg"
+                img: "table1.png"
         }, {
                 name: "table2",
-                img: "table2.jpeg"
+                img: "table2.png"
         }
     ];
 
@@ -23,7 +23,10 @@ wixRestClientApp.factory("draggable_chairs", function () {
         var data = [
             {
                 name: "chair",
-                img: "chair.jpg"
+                img: "chair.png"
+        }, {
+                name: "chair",
+                img: "chair1.png"
         }
     ];
 
@@ -33,8 +36,11 @@ wixRestClientApp.factory("draggable_chairs", function () {
 wixRestClientApp.factory("draggable_misc", function () {
 	var data = [
 		{
-			name: "chair",
-			img: "f.jpeg"
+			name: "wall",
+			img: "wall.png"
+	}, {
+			name: "square",
+			img: "square.jpg"
 	}
 ];
 
@@ -44,8 +50,8 @@ wixRestClientApp.factory("draggable_misc", function () {
 wixRestClientApp.factory("droppableData", function () {
     var data = [
         {
-            tname: "apple",
-            img: "apple_callout.png"
+            tname: "square",
+            img: "square.png"
         }
     ];
 
