@@ -1,28 +1,47 @@
 "use strict"
 
-var dragDropSampleApp = angular.module("dragDropSampleApp", []);
+var wixRestClientApp = angular.module("wixRestClientApp", []);
 
-dragDropSampleApp.factory("draggableData", function () {
+wixRestClientApp.factory("draggable_tables", function () {
         var data = [
             {
                 name: "table",
                 img: "table.png"
         }, {
-                name: "chair",
-                img: "chair.jpg"
+                name: "table1",
+                img: "table1.jpeg"
         }, {
-                name: "fountain",
-                img: "f.jpg"
-        }, {
-            name: "bg",
-            img: "bg.jpg"
+                name: "table2",
+                img: "table2.jpeg"
         }
     ];
 
         return data;
     }) //
+	
+wixRestClientApp.factory("draggable_chairs", function () {
+        var data = [
+            {
+                name: "chair",
+                img: "chair.jpg"
+        }
+    ];
 
-dragDropSampleApp.factory("droppableData", function () {
+        return data;
+    }) //
+	
+wixRestClientApp.factory("draggable_misc", function () {
+	var data = [
+		{
+			name: "chair",
+			img: "f.jpeg"
+	}
+];
+
+	return data;
+}) //
+
+wixRestClientApp.factory("droppableData", function () {
     var data = [
         {
             tname: "apple",
@@ -33,23 +52,28 @@ dragDropSampleApp.factory("droppableData", function () {
     return data;
 }); ///
 
-dragDropSampleApp.controller("MainController", ["$scope", "draggableData", "droppableData","$timeout" ,function ($scope, draggableData, droppableData,$timeout) {
+wixRestClientApp.controller("MainController", 
+	["$scope", "draggable_tables", "draggable_chairs", "draggable_misc", "droppableData", "$timeout",
+	function ($scope, draggable_tables, draggable_chairs, draggable_misc, droppableData,$timeout) {
 
-    $scope.draggableArray = draggableData;
+    $scope.draggableArray_tables = draggable_tables;
+	$scope.draggableArray_chairs = draggable_chairs;
+	$scope.draggableArray_misc = draggable_misc;
+	
     $scope.droppableArray = droppableData;
 
-    $scope.draggableArrayLength = $scope.draggableArray.length;
+    $scope.draggableArray_tablesLength = $scope.draggableArray_tables.length;
 	
 	$scope.bgItem = {name: "bg", img: "square.jpg"}
 	
 	$scope.getNum = function(num) {
 		// read from server
-		var arrayToReturn = [1, 2, 3, 4, 5];
+		var arrayToReturn = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		return arrayToReturn;	
 	}
 }]); //
 
-dragDropSampleApp.directive("dragme", ["$timeout", function ($timeout) {
+wixRestClientApp.directive("dragme", ["$timeout", function ($timeout) {
     return {
         restrict: "A",
         replace: true,
@@ -84,7 +108,7 @@ dragDropSampleApp.directive("dragme", ["$timeout", function ($timeout) {
     }
 }]); ///
 
-dragDropSampleApp.directive("dropme", ["$timeout", function ($timeout) {
+wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
     return {
         restrict: "A",
         replace: true,

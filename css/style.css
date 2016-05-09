@@ -31,15 +31,15 @@ div{
 }
 
 .outerContainer{
-    width:1024px;
-    height:650px;
+    width:1500px;
+    height:1500px;
     position: relative;
     margin:0 auto;
 }
 
 #draggableContainer{
-    width: 200px;
-    height: 630px;
+    width: 250px;
+    height: 840px;
     position: relative;
     float: left;
     background:rgba(50,150,240,.5);
@@ -51,8 +51,8 @@ div{
 }
 
 #userContainer{
-    width: 300px;
-    height: 630px;
+    width: 400px;
+    height: 840px;
     position: relative;
     float: left;
     background:rgba(50,150,240,.5);
@@ -64,8 +64,8 @@ div{
 }
 
 #droppableContainer{
-    width: 600px;
-    height: 630px;
+    width: 800px;
+    height: 840px;
     position: relative;
     float: left;
     margin-top: 10px;
