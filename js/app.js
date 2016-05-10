@@ -65,7 +65,7 @@ wixRestClientApp.factory("droppableData", function () {
     var data = [
         {
             tname: "square",
-            img: "square.png"
+            img: ""
         }
     ];
 
@@ -156,19 +156,13 @@ wixRestClientApp.controller("MainController",
 					{name: "square", img: "square.jpg"}
 				]  
 			},    
-		};
-		
-	$scope.matrix=[
-				  [{value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}],
-				  [{value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}],
-				  [{value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}]
-				];	
-		
+		};	
+	
     $scope.droppableArray = droppableData;
 
     $scope.draggableArray_tablesLength = $scope.draggableArray_tables.length;
 	
-	$scope.bgItem = {name: "bg", img: "square.jpg"}
+	$scope.bgItem = {name: "bg"}//, img: "square.jpg"}
 	
 	$scope.getNum = function(num) {
 		// read from server
