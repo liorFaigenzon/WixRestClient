@@ -157,6 +157,13 @@ wixRestClientApp.controller("MainController",
 				]  
 			},    
 		};
+		
+	$scope.matrix=[
+				  [{value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}],
+				  [{value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}],
+				  [{value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}, {value: {name: "bg", img: "square.jpg"}}]
+				];	
+		
     $scope.droppableArray = droppableData;
 
     $scope.draggableArray_tablesLength = $scope.draggableArray_tables.length;
@@ -229,3 +236,4 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
         }
     }
 }]); ///
+
