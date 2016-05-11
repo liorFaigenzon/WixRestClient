@@ -111,7 +111,9 @@ wixRestClientApp.controller("MainController",
 
             for (var j = 0; j < cols; j++) {
                 // Initializes:
-                arr[i][j] = defaultValue;
+                //arr[i][j] = defaultValue;
+				//arr[i][j] = i+"-"+j;
+				arr[i][j] ={name: i+"-"+j, img: "square.jpg"}
             }
         }
 
@@ -214,12 +216,12 @@ wixRestClientApp.directive("dragme", ["$timeout", function ($timeout) {
 
 wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
     return {
+		
         restrict: "A",
         replace: true,
         scope: {},
         link: function ($scope, $elem, $attr) {
             var backgroundImage = $attr.backgroundimage;
-
             $elem.addClass("droppable");
             $elem.attr("data-answerimage", backgroundImage);
             $elem.css({
