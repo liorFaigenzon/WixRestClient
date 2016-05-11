@@ -20,7 +20,7 @@
 	function reserve()
 {
 	var para = document.createElement("p");
-	var node = document.createTextNode("Table is Reservat!");
+	var node = document.createTextNode("Table reserved!");
 	
 	para.appendChild(node);
 	var element = document.getElementById("mySelect");
@@ -42,7 +42,7 @@
 					para.appendChild(node);
 					var element = document.getElementById("mySelect");
 					if (para.value != "") {
-						//element.appendChild(para);
+						element.appendChild(para);
 						//selections.push(id);
 					}
 				}
@@ -228,7 +228,7 @@ $(function() {
                     </div>
                 </div>
 
-                <div class="row" ng-hide="true">
+                <div class="row" ng-hide="false">
                     <label for="timeInput" class="col-xs-4"><h4>Load map:</h4></label>
                     <div id="Load" class="input-field col-xs-8">
                         <input type="button" value="Load" class="btn btn-default  col-xs-4">
@@ -247,6 +247,12 @@ $(function() {
                     <label for="quantityInput" class="col-xs-4"><h4>Quantity:</h4></label>
                     <div id="quantityInput" class="input-field col-xs-8">
                         <input class="form-control" type="number" name="quantity" min="1" max="12">
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="quantityInput" class="col-xs-4"><h4>Phone:</h4></label>
+                    <div id="quantityInput" class="input-field col-xs-8">
+                        <input class="form-control">
                     </div>
                 </div>
 
