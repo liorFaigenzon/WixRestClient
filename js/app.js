@@ -111,7 +111,8 @@ wixRestClientApp.controller("MainController",
 
             for (var j = 0; j < cols; j++) {
                 // Initializes:
-                arr[i][j] = defaultValue;
+                //arr[i][j] = defaultValue;
+				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg"};
             }
         }
 
