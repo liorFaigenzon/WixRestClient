@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/ng-table.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/ng-table.min.css">
+
+    <style wix-style ng-non-bindable>
+        .label {
+            text-align: left;
+        }
+    </style>
+
+    <style>
+               * {
+                   margin: 0;
+                   padding: 0;
+                   -webkit-box-sizing: border-box;
+                   -moz-box-sizing: border-box;
+                   box-sizing: border-box;
+               }
+
+               ul {
+                   list-style-type: none;
+               }
+
+               a {
+                   color: #b63b4d;
+                   text-decoration: none;
+               }
+
+               /** =======================
+        * Contenedor Principal
+        ===========================*/
+               h1 {
+                   color: #FFF;
+                   font-size: 24px;
+                   font-weight: 400;
+                   text-align: center;
+                   margin-top: 80px;
+               }
+
+                   h1 a {
+                       color: #c12c42;
+                       font-size: 16px;
+                   }
+
+               .accordion {
+                   width: 100%;
+                   max-width: 360px;
+                   margin: 30px auto 20px;
+                   background: #FFF;
+                   -webkit-border-radius: 4px;
+                   -moz-border-radius: 4px;
+                   border-radius: 4px;
+               }
+
+                   .accordion .link {
+                       cursor: pointer;
+                       display: block;
+                       padding: 15px 15px 15px 42px;
+                       color: rgba(50,150,240,1);
+                       font-size: 14px;
+                       font-weight: 700;
+                       border-bottom: 1px solid #CCC;
+                       position: relative;
+                       -webkit-transition: all 0.4s ease;
+                       -o-transition: all 0.4s ease;
+                       transition: all 0.4s ease;
+                   }
+
+                   .accordion li:last-child .link {
+                       border-bottom: 0;
+                   }
+
+                   .accordion li i {
+                       position: absolute;
+                       top: 16px;
+                       left: 12px;
+                       font-size: 18px;
+                       color: #595959;
+                       -webkit-transition: all 0.4s ease;
+                       -o-transition: all 0.4s ease;
+                       transition: all 0.4s ease;
+                   }
+
+                       .accordion li i.fa-chevron-down {
+                           right: 12px;
+                           left: auto;
+                           font-size: 16px;
+                       }
+
+                   .accordion li.open .link {
+                       color: rgba(50,150,240,.5);
+                   }
+
+                   .accordion li.open i {
+                       color: #b63b4d;
+                   }
+
+                       .accordion li.open i.fa-chevron-down {
+                           -webkit-transform: rotate(180deg);
+                           -ms-transform: rotate(180deg);
+                           -o-transform: rotate(180deg);
+                           transform: rotate(180deg);
+                       }
+
+                   .accordion li.default .submenu {
+                       display: block;
+                   }
+               /**
+        * Submenu
+        -----------------------------*/ / .submenu {
+                   display: none;
+                   background: rgba(50,150,240,1);
+                   font-size: 14px;
+               }
+
+               .submenu a {
+                   display: block;
+                   text-decoration: none;
+                   color: #d9d9d9;
+                   padding: 12px;
+                   padding-left: 42px;
+                   -webkit-transition: all 0.25s ease;
+                   -o-transition: all 0.25s ease;
+                   transition: all 0.25s ease;
+               }
+
+                   .submenu a:hover {
+                       background: rgba(60,200,240,1);
+                       color: #FFF;
+                   }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            (function ($) {
+
+                $('#filter').keyup(function () {
+
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.searchable tr').hide();
+                    $('.searchable tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+
+                })
+
+            }(jQuery));
+
+        });
+    </script>
+
+    <script src="Controllers/GridController.js"></script>
+    <script src="Controllers/OrderController.js"></script>
+    <script src="Controllers/TableController.js"></script>
+
+</head>
+<body data-ng-app="wixRestClientApp">
+    <div ng-controller="OrderController">
+
+        <div class="input-group">
+            <!--<span class="input-group-addon">Filter</span>-->
+            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate('1')">RetrieveDefaultGrid</button>
+
+            <!--<input id="filter" type="text" class="form-control" placeholder="Type here...">-->
+        </div>
+
+        
+
+        <table ng-table="tableParams" class="table" show-filter="true">
+            <tr ng-repeat="x in orders">
+                <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">
+                    {{x.Date}}
+                </td>
+                <td title="'TableNumber'" filter="{ TableNumber: 'text'}" sortable="'TableNumber'">
+                    {{x.TableNumber}}
+                </td>
+                <td title="'FromTime'" filter="{ FromTime: 'text'}" sortable="'FromTime'">
+                    {{x.FromTime}}
+                </td>
+                <td title="'ToTime'" filter="{ ToTime: 'text'}" sortable="'ToTime'">
+                    {{x.ToTime}}
+                </td>
+                <td title="'NumOfPeople'" filter="{ NumOfPeople: 'text'}" sortable="'NumOfPeople'">
+                    {{x.NumOfPeople}}
+                </td>
+                <td title="'CustomerName'" filter="{ CustomerName: 'text'}" sortable="'CustomerName'">
+                    {{x.CustomerName}}
+                </td>
+                <td title="'CustomerPhone'" filter="{ CustomerPhone: 'text'}" sortable="'CustomerPhone'">
+                    {{x.CustomerPhone}}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</body><!--body-->
+</html>

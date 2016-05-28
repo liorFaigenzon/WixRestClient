@@ -74,8 +74,8 @@ wixRestClientApp.factory("droppableData", function () {
 
 
 wixRestClientApp.controller("MainController", 
-	["$scope", "draggable_tables","draggable_chairs","draggableArray", "draggable_misc", "droppableData", "$timeout",
-	function ($scope, draggable_tables, length,width,draggable_chairs, draggable_misc,draggableArray, droppableData,$timeout) {
+	["$scope", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
+	function ($scope, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
 
     function makeSizes() {
         for (var i = 0; i < 10; i++) {
@@ -83,6 +83,7 @@ wixRestClientApp.controller("MainController",
         }
     }
     
+
 
 	//------------
     $scope.draggableArray_tables = draggable_tables;
@@ -188,3 +189,16 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
     }
 }]); ///
 
+wixRestClientApp.directive("accordion", function() {
+	return {
+		restrict: "EA",
+		link: function($scope, $elem, $attr) {
+			$elem.on("click", ".link", function() {
+				$(this).next().slideToggle();
+				$(this).parent().toggleClass("open");
+			});
+			
+			
+		}
+	};
+});

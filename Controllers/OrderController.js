@@ -72,8 +72,8 @@ app.controller('OrderController', ['$scope', '$http',
 			
 			$scope.Grid = null;
 			
-			var httpMethod = 'POST';
-			var urlWithParameters = localUrl + '/' + gridID;
+			var httpMethod = 'GET';
+			var urlWithParameters = localUrl + '/' + gridId;
 			
 			$http(
 			{
@@ -83,7 +83,9 @@ app.controller('OrderController', ['$scope', '$http',
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
-
+				$scope.orders = response.data;
+				var data = $scope.orders;
+				$scope.tableParams = new NgTableParams({}, { dataset: $scope.orders });
 			}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
