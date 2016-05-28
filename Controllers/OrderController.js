@@ -63,15 +63,17 @@ app.controller('OrderController', ['$scope', '$http',
 			
 		};
 
-		$scope.GetOrdersByGridAndDate = function(gridId, date){
+		$scope.GetOrdersByGridAndDate = function(gridId){
 		
+			var localUrl = 'http://localhost:54603/api/GetAdminOrders';
+
 			$scope.code = null;
 			$scope.response = null;
 			
 			$scope.Grid = null;
 			
 			var httpMethod = 'POST';
-			var urlWithParameters = $scope.url + '/' + gridID + '/' + date;
+			var urlWithParameters = localUrl + '/' + gridID;
 			
 			$http(
 			{
