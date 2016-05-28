@@ -62,5 +62,33 @@ app.controller('OrderController', ['$scope', '$http',
 			});
 			
 		};
+
+		$scope.GetOrdersByGridAndDate = function(gridId, date){
+		
+			$scope.code = null;
+			$scope.response = null;
+			
+			$scope.Grid = null;
+			
+			var httpMethod = 'POST';
+			var urlWithParameters = $scope.url + '/' + gridID + '/' + date;
+			
+			$http(
+			{
+				method: httpMethod,
+				url: urlWithParameters
+			}).
+			then(function (response){
+				$scope.status = response.status;
+				$scope.responseOnSaving = { Response: response.data };
+
+			}, function (response) {
+			
+				$scope.data = response.data || "Request failed";
+				$scope.status = response.status;
+			
+			});
+			
+		};
 		
 	}]);
