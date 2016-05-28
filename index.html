@@ -208,8 +208,8 @@ $(function() {
 <body data-ng-app="wixRestClientApp">
     <input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> I am admin<br>
 	
-	<div ng-controller="GridController">
-	<button id="checkGridRetrievel" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')">RetrieveDefaultGrid</button>
+	<div >
+	
 	</div>
 
     <div class="outerContainer container" data-ng-controller="MainController">
@@ -330,9 +330,9 @@ $(function() {
             </form>
         </div>
 		
-        <div id="droppableContainer" class="col-xs-7">
+        <div id="droppableContainer" ng-controller="GridController" class="col-xs-7">
 
-			
+            <button id="checkGridRetrievel" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')">RetrieveDefaultGrid</button>
 		
 			<table>
                 <tr data-ng-repeat="row in cells  track by $index">

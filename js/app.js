@@ -77,50 +77,6 @@ wixRestClientApp.controller("MainController",
 	["$scope", "draggable_tables","draggable_chairs","draggableArray", "draggable_misc", "droppableData", "$timeout",
 	function ($scope, draggable_tables, length,width,draggable_chairs, draggable_misc,draggableArray, droppableData,$timeout) {
 
-	$scope.cells = [
-        []
-    ];
-    $scope.sizes = [];
-
-    makeSizes();
-
-    $scope.length = $scope.sizes[0];
-    $scope.width = $scope.sizes[0];
-	
-    $scope.$watch('[width,length]', makeMap, true);
-
-    function makeMap() {
-        var cols = $scope.width,
-            rows = $scope.length;
-		console.log('makeMap');
-        $scope.cells = matrix(rows, cols, 'cell');
-    }
-
-    function matrix(rows, cols, defaultValue) {
-		// code from here http://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
-        var arr = [[]];
-
-        // Creates all lines:
-        for (var i = 0; i < rows; i++) {
-
-            // Creates an empty line
-            arr[i] = [];
-
-            // Adds cols to the empty line:
-            arr[i] = new Array(cols);
-
-            for (var j = 0; j < cols; j++) {
-                // Initializes:
-                //arr[i][j] = defaultValue;
-				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg"};
-            }
-        }
-
-        return arr;
-    }
-
-    makeMap();
-
     function makeSizes() {
         for (var i = 0; i < 10; i++) {
             $scope.sizes.push(i + 3);
