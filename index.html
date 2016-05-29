@@ -207,7 +207,6 @@ $(function() {
 </head>
 <body data-ng-app="wixRestClientApp">
     <input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> I am admin<br>
-	
 	<div >
 	
 	</div>
@@ -273,7 +272,7 @@ $(function() {
             </form>
         </div>
 
-        <div id="draggableContainer" class="col-xs-5" ng-show="isAdmin">
+        <div id="draggableContainer" class="col-xs-5" ng-show="isAdmin && isEdit">
             <form action="#someurl" id="mapLoader">
                 <p>
                     <h2 class="">Map Builder:</h2>
@@ -289,33 +288,6 @@ $(function() {
 							</div>
 						</ul>
 					</li>
-				    
-					<!--
-                    <li class="default open">
-                        <div class="link"><i class="fa fa-code"></i>Tables<i class="fa fa-chevron-down"></i></div>
-                        <ul class="submenu">
-                            <div data-ng-repeat="item in draggableArray_tables">
-								<li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li> 
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="default">
-                        <div class="link"><i class="fa fa-paint-brush"></i>Chairs<i class="fa fa-chevron-down"></i></div>
-                        <ul class="submenu">
-                            <div data-ng-repeat="item in draggableArray_chairs">
-                               <li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li>
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="default">
-                        <div class="link"><i class="fa fa-mobile"></i>Miscellaneous<i class="fa fa-chevron-down"></i></div>
-                        <ul class="submenu">
-                            <div data-ng-repeat="item in draggableArray_misc">
-                               <li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li>
-                            </div>
-                        </ul>
-                    </li>
-                </ul>-->
 			<div style="color:black">
 				<label>Length</label>
 				<select ng-model="length" ng-options="length for length in sizes"/>
@@ -324,10 +296,53 @@ $(function() {
 				<select ng-model="width" ng-options="width for width in sizes">
 				</select>
 			</div>
+			<div style="color:black">
                 <div id="Save" class="input-field col-xs-4 col-xs-push-5 row">
                     <input type="button" value="Save" class="btn btn-default"><br>
+                </div><br>
+				<div id="Exit" class="input-field col-xs-4 col-xs-push-5 row" ng-click="isEdit = false">
+                    <input type="button" value="Exit" class="btn btn-default"><br>
                 </div>
+			</div>
             </form>
+        </div>
+		
+		<div id="userContainer" class="col-xs-5" ng-show="isAdmin && !isEdit">
+            <form action="#someurl" id="mapLoader">
+                <p>
+                    <h2 class="">Map Builder:</h2>
+                </p>
+                <ul id="accordion" class="accordion">
+
+				
+					<li >
+						<div class="link"><i class="fa fa-code"></i>Manger<i class="fa fa-chevron-down"></i></div>
+						<ul class="submenu">
+							
+						</ul>
+					</li>	
+					<li>
+						<div class="link" ng-click="isEdit = true"><i class="fa fa-code" ></i>Edit<i class="fa fa-chevron-down"></i></div>
+						<ul class="submenu">
+							
+						</ul>
+					</li>	
+					<li>
+						<div class="link"><i class="fa fa-code"></i>Order<i class="fa fa-chevron-down"></i></div>
+						<ul class="submenu">
+							
+						</ul>
+					</li>	
+					<li>
+						<div class="link"><i class="fa fa-code"></i>Statics<i class="fa fa-chevron-down"></i></div>
+						<ul class="submenu">
+							<!--<div>
+								<li><a href="#"></a></li> 
+							</div>-->
+						</ul>
+					</li>
+				</ul>
+
         </div>
 		
         <div id="droppableContainer" ng-controller="GridController" class="col-xs-7">
