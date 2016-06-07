@@ -35,7 +35,7 @@ app.controller('OrderController', ['$scope', '$http',
 			
 		};
 		
-		$scope.CreateNewOrder = function(gridID, tableNum, customerID, numOfPpl, reservationTime){
+		$scope.CreateNewOrder = function(gridID, tableNum, customerName, phoneNum, numOfPpl, reservationTime){
 		
 			$scope.code = null;
 			$scope.response = null;
@@ -43,8 +43,9 @@ app.controller('OrderController', ['$scope', '$http',
 			$scope.Grid = null;
 			
 			var httpMethod = 'POST';
-			var urlWithParameters = $scope.url + '/' + gridID + '/' + tableNum + '/' + customerID + '/' + numOfPpl + '/' + reservationTime;
-			
+			var urlWithParameters = $scope.url + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
+
+
 			$http(
 			{
 				method: httpMethod,
