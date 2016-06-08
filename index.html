@@ -338,7 +338,7 @@ $(function() {
 			<table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-						<div onclick="selectChair(id)" id="{{cell.id}}" style="box-shadow:{{cell.myStyle}}" dropme data-name="{{cell.img}}" ng-model="cell" backgroundimage="{{cell.img}}"></td>
+						<div onclick="selectChair(id)" id="{{cell.id}}" dropme data-name="{{cell.img}}" ng-model="cell" backgroundimage="{{cell.img}}" backgroundShadow="{{cell.boxShadow}}"></td>
                 </tr>
             <table />
             <!--<table>

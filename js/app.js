@@ -117,6 +117,24 @@ wixRestClientApp.controller("MainController",
 			X: 5,
 			Y: 5,
 			photoId: "1",
+		},{
+			ID: "2",
+			mapId: "1",
+			X: 6,
+			Y: 5,
+			photoId: "1",
+		},{
+			ID: "3",
+			mapId: "1",
+			X: 4,
+			Y: 5,
+			photoId: "1",
+		},{
+			ID: "4",
+			mapId: "1",
+			X: 5,
+			Y: 4,
+			photoId: "2",
 		}];
 		
 		var photos = [
@@ -124,6 +142,10 @@ wixRestClientApp.controller("MainController",
 			ID: "1",
 			NAME: "table",
 			PATH:"table.png"
+		},{
+		ID: "2",
+			NAME: "chair",
+			PATH:"chair1.png"
 		}];
 		
 		var orders = [
@@ -149,7 +171,7 @@ wixRestClientApp.controller("MainController",
                 // Initializes:
                 //arr[i][j] = defaultValue;
 				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg"};
-				//arr[i][j].myStyle = "inset 0px 0px 0px 3px blue";
+				arr[i][j].boxShadow = "0";
 				
             }
         }
@@ -161,13 +183,13 @@ wixRestClientApp.controller("MainController",
 	    for (var j = 0; j < takenBitches.length; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[j].NAME, img: photos[j].PATH};
+				arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[0].NAME, img: photos[0].PATH};
 		}
 		
 		//Apply order to map 
-		for (var j = 0; j < takenBitches.length; j++) {
+		for (var j = 0; j < orders.length; j++) {
                 // Initializes:
-				//arr[takenBitches[j].X][takenBitches[j].Y]).myStyle = "box-shadow:inset 0px 0px 0px 3px blue";
+				(arr[takenBitches[j].X][takenBitches[j].Y]).boxShadow = "inset 0px 0px 0px 3px red";
 
 		}
 		
@@ -269,11 +291,12 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
         scope: {},
         link: function ($scope, $elem, $attr) {
             var backgroundImage = $attr.backgroundimage;
-
+		    var backgroundShadow = $attr.backgroundshadow;
             $elem.addClass("droppable");
             $elem.attr("data-answerimage", backgroundImage);
             $elem.css({
-                backgroundImage: "url(img/" + backgroundImage + ")"
+                backgroundImage: "url(img/" + backgroundImage + ")",
+				boxShadow:backgroundShadow
             });
             $elem.droppable({
                 accept: ".draggable",
