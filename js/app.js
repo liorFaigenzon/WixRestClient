@@ -149,9 +149,28 @@ wixRestClientApp.controller("MainController",
                 // Initializes:
                 //arr[i][j] = defaultValue;
 				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg"};
+				//arr[i][j].myStyle = "inset 0px 0px 0px 3px blue";
+				
             }
         }
 
+		
+		
+		
+		//Load map bitch (for map 1)
+	    for (var j = 0; j < takenBitches.length; j++) {
+                // Initializes:
+                //arr[i][j] = defaultValue;
+				arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[j].NAME, img: photos[j].PATH};
+		}
+		
+		//Apply order to map 
+		for (var j = 0; j < takenBitches.length; j++) {
+                // Initializes:
+				//arr[takenBitches[j].X][takenBitches[j].Y]).myStyle = "box-shadow:inset 0px 0px 0px 3px blue";
+
+		}
+		
         return arr;
     }
 

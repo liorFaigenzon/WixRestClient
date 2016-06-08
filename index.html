@@ -245,7 +245,34 @@ h1 a {
                 </div>
             </form>
         </div>
+<script>
+$(function() {
+	var Accordion = function(el, multiple) {
+		this.el = el || {};
+		this.multiple = multiple || false;
 
+		// Variables privadas
+		var links = this.el.find('.link');
+		// Evento
+		links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+	}
+
+	Accordion.prototype.dropdown = function(e) {
+		var $el = e.data.el;
+			$this = $(this),
+			$next = $this.next();
+
+		$next.slideToggle();
+		$this.parent().toggleClass('open');
+
+		if (!e.data.multiple) {
+			$el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+		};
+	}	
+
+	var accordion = new Accordion($('#accordion'), false);
+});
+</script>
         <div id="draggableContainer" class="col-xs-5" ng-show="isAdmin">
             <form action="#someurl" id="mapLoader">
                 <p>
@@ -287,8 +314,9 @@ h1 a {
                                <li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}"  backgroundimage="{{item.img}}" myindex="$index" ></div></a></li>
                             </div>
                         </ul>
-                    </li>
-                </ul>-->
+                    </li>-->
+                </ul>
+				
 			<div style="color:black">
 				<label>Length</label>
 				<select ng-model="length" ng-options="length for length in sizes"/>
@@ -310,7 +338,7 @@ h1 a {
 			<table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-						<div onclick="selectChair(id)" id="{{cell.id}}"  dropme data-name="{{cell.img}}" ng-model="cell" backgroundimage="{{cell.img}}"></td>
+						<div onclick="selectChair(id)" id="{{cell.id}}" style="box-shadow:{{cell.myStyle}}" dropme data-name="{{cell.img}}" ng-model="cell" backgroundimage="{{cell.img}}"></td>
                 </tr>
             <table />
             <!--<table>
