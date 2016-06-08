@@ -14,10 +14,12 @@ app.controller('OrderController', ['$scope', '$http',
 			$scope.Orders = null;
 			
 			var httpMethod = 'GET';
+			
 			var urlWithParameters = $scope.url + '/' + gridId;
 			
 			$http(
 			{
+				
 				method: httpMethod,
 				url: urlWithParameters
 			}).
