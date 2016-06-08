@@ -98,7 +98,43 @@ wixRestClientApp.controller("MainController",
 
     function matrix(rows, cols, defaultValue) {
 		// code from here http://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
-        var arr = [[]];
+        
+		var maps = [{
+				ID: "1",
+				X: 12,
+				Y: 12,
+				NAME: "Default",
+				DESCRIBE:"DEFAULT MAP MATHER FUCKER BITCH"
+			}];
+		
+		rows = maps[0].X;
+		cols = maps[0].Y;
+		
+		var takenBitches = [
+		{
+			ID: "1",
+			mapId: "1",
+			X: 5,
+			Y: 5,
+			photoId: "1",
+		}];
+		
+		var photos = [
+		{
+			ID: "1",
+			NAME: "table",
+			PATH:"table.png"
+		}];
+		
+		var orders = [
+		{
+			ID: "1",
+			takenBitchesId:"1",
+			From: "08/6/16 23:00",
+			To:"09/6/16 00:00"
+		}];
+		
+		var arr = [[]];
 
         // Creates all lines:
         for (var i = 0; i < rows; i++) {
