@@ -1,8 +1,8 @@
 app = angular.module('wixRestClientApp');
 
 wixRestClientApp.controller("MainController", 
-	["$scope", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
-	function ($scope, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
+	["$scope", '$http', "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
+	function ($scope, $http, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
 
 	//------------
     $scope.draggableArray_tables = draggable_tables;
