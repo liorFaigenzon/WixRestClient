@@ -49,7 +49,13 @@ app.controller('OrderController', ['$scope', '$http',
 			$http(
 			{
 				method: httpMethod,
-				url: urlWithParameters
+				url: $scope.url + '/CreateNewOrder',
+				data: {
+				GridID:gridID ,
+				TableNumber:tableNum,
+				CustomerID:phoneNum,
+				NumOfPeople:numOfPpl
+				}
 			}).
 			then(function (response){
 				$scope.status = response.status;
