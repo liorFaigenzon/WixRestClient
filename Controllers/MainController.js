@@ -1,8 +1,8 @@
 app = angular.module('wixRestClientApp');
 
 wixRestClientApp.controller("MainController", 
-	["$scope", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
-	function ($scope, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
+	["$scope", "$http", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
+	function ($scope, $http, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
 
 	//------------
     $scope.draggableArray_tables = draggable_tables;
@@ -83,13 +83,11 @@ wixRestClientApp.controller("MainController",
 		$scope.Gridurl = 'http://localhost:54603/api/grids';
 		
 		$scope.GetGridByUserNameAndPassword = function (userName, password){
-		
-            
-		
 
 		    $scope.Grid = $scope.dataFromServer.Grid;
 		    $scope.length = 12;
 		    $scope.width = 12;
+
 		    makeMap();
 		    makeSizes();
 		};
@@ -112,7 +110,11 @@ wixRestClientApp.controller("MainController",
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
-
+				$scope.length = response.data.XLen;
+				$scope.width = response.data.YLen;
+				$scope.Items = response.data.Items;
+				makeMap();
+				$scope.gridId = response.data.gridId;
 			}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
@@ -140,6 +142,29 @@ wixRestClientApp.controller("MainController",
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
+				$scope.gridId = response.data.gridId;
+			var index = 0;
+			var takenPlaces = [];
+       		 for (var i = 0; i < $scope.length; i++) {
+            	for (var j = 0; j < $scope.width; j++) {
+	                // Initializes:
+	                //arr[i][j] = defaultValue;
+					if ($scope.cells[i][j].name != "square") {
+						var item = { gridId:response.data,
+									tableNumber:index,
+									capacity:0,
+									isSmokingAllowed:'false',
+									xCoord:i,
+									yCoord:j,
+									xLength:1,
+									yLength:1
+								};
+						index++;
+						$scope.CreateNewTable(item.gridId,item.tableNumber,item.capacity,item.isSmokingAllowed,item.xCoord,item.yCoord,item.xLength,item.yLength);
+		            	}
+		        	}
+		        }
+				//$scope.CreateNewTable
 
 			}, function (response) {
 			
@@ -213,10 +238,19 @@ wixRestClientApp.controller("MainController",
 		    var cols = $scope.width,
                 rows = $scope.length;
 		    console.log('makeMap');
+		    ClearMap();
 		    $scope.cells = matrix(rows, cols, 'cell');
+            makeSizes();
+
 		}
 
-		function makeSizes() {
+		function ClearMap(){
+			$scope.cells = [[]];
+		}
+
+
+
+		  function makeSizes() {
 			for (var i = 0; i < $scope.length; i++) {
 				$scope.sizes.push(i + 3);
 			}
@@ -232,8 +266,8 @@ wixRestClientApp.controller("MainController",
 		
 		var maps = [{
 				ID: "1",
-				X: 12,
-				Y: 12,
+				X: $scope.length,
+				Y: $scope.width,
 				NAME: "Default",
 				DESCRIBE:"DEFAULT MAP MATHER FUCKER BITCH"
 			}];
@@ -302,29 +336,33 @@ wixRestClientApp.controller("MainController",
             for (var j = 0; j < cols; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[i][j] ={id:i+"-"+j+"-"+maps[0].ID+"-"+photos[0].ID,name: "square", img: "square.jpg"};
+				arr[i][j] ={id:i+"-"+j+"-"+maps[0].ID+"-"+photos[0].ID,name: "square", img: "square.jpg", TableNum: "0"};
 				arr[i][j].boxShadow = "0";
 				
             }
         }
 
-		
+		for (var j = 0; j < $scope.Items.length; j++) {
+                // Initializes:
+                //arr[i][j] = defaultValue;
+				arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
+		}
 		
 		
 		//Load map bitch (for map 1)
-	    for (var j = 0; j < takenBitches.length; j++) {
+	    //for (var j = 0; j < takenBitches.length; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[0].NAME, img: photos[0].PATH};
-		}
+		//		arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[0].NAME, img: photos[0].PATH};
+		//}
 		
 		//Apply order to map 
-		for (var j = 0; j < orders.length; j++) {
+		//for (var j = 0; j < orders.length; j++) {
                 // Initializes:
-				(arr[takenBitches[j].X][takenBitches[j].Y]).boxShadow = "inset 0px 0px 0px 3px red";
-				(arr[takenBitches[j].X][takenBitches[j].Y]).id = "Taken"
+		//		(arr[takenBitches[j].X][takenBitches[j].Y]).boxShadow = "inset 0px 0px 0px 3px red";
+		//		(arr[takenBitches[j].X][takenBitches[j].Y]).id = "Taken"
 
-		}
+		//}
 		
         return arr;
     }
@@ -371,7 +409,16 @@ wixRestClientApp.controller("MainController",
 			$scope.response = null;
 			
 			$scope.Grid = null;
-			
+			var takenPlaces = [];
+       		 for (var i = 0; i < $scope.length; i++) {
+            	for (var j = 0; j < $scope.width; j++) {
+	                // Initializes:
+	                //arr[i][j] = defaultValue;
+					if ($scope.cells[i][j].boxShadow == "inset 0px 0px 0px 3px red") {
+						tableNum=$scope.cells[i][j].id;
+						}
+		        	}
+		        }
 			var httpMethod = 'POST';
 			var urlWithParameters = $scope.OrderUrl + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
 
@@ -379,7 +426,7 @@ wixRestClientApp.controller("MainController",
 			$http(
 			{
 				method: httpMethod,
-				url: $scope.url + '/CreateNewOrder',
+				url: $scope.OrderUrl + '/CreateNewOrder',
 				data: {
 				GridID:gridID ,
 				TableNumber:tableNum,
@@ -390,6 +437,8 @@ wixRestClientApp.controller("MainController",
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
+							var index = 0;
+			
 
 			}, function (response) {
 			
