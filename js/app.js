@@ -72,63 +72,6 @@ wixRestClientApp.factory("droppableData", function () {
     return data;
 }); ///
 
-
-wixRestClientApp.controller("MainController", 
-	["$scope", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
-	function ($scope, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
-
-    function makeSizes() {
-        for (var i = 0; i < 10; i++) {
-            $scope.sizes.push(i + 3);
-        }
-    }
-    
-
-
-	//------------
-    $scope.draggableArray_tables = draggable_tables;
-	$scope.draggableArray_chairs = draggable_chairs;
-	$scope.draggableArray_misc = draggable_misc;
-	
-	$scope.draggableArray =  
-			 {
-			"1": {
-				'key': "Tables",  
-				'value': [   
-					{name: "table", img: "table.png"},  
-					{name: "table", img: "table1.png"},
-					{name: "table", img: "table2.png"}
-				]  
-			},    
-			"2": {
-				'key': "Chairs",  
-				'value': [   
-					{name: "chair", img: "chair.png"},  
-					{name: "chair", img: "chair1.png"}
-				]  
-			},    			
-			"3": {
-				'key': "Misc",  
-				'value': [   
-					{name: "wall", img: "wall.png"},  
-					{name: "square", img: "square.jpg"}
-				]  
-			},    
-		};	
-	
-    $scope.droppableArray = droppableData;
-
-    $scope.draggableArray_tablesLength = $scope.draggableArray_tables.length;
-	
-	$scope.bgItem = {name: "bg"}//, img: "square.jpg"}
-	
-	$scope.getNum = function(num) {
-		// read from server
-		var arrayToReturn = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		return arrayToReturn;	
-	}
-}]); //
-
 wixRestClientApp.directive("dragme", ["$timeout", function ($timeout) {
     return {
         restrict: "A",
@@ -171,11 +114,12 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
         scope: {},
         link: function ($scope, $elem, $attr) {
             var backgroundImage = $attr.backgroundimage;
-
+            var backgroundShadow = $attr.backgroundshadow;
             $elem.addClass("droppable");
             $elem.attr("data-answerimage", backgroundImage);
             $elem.css({
-                backgroundImage: "url(img/" + backgroundImage + ")"
+                backgroundImage: "url(img/" + backgroundImage + ")",
+                boxShadow:backgroundShadow
             });
             $elem.droppable({
                 accept: ".draggable",
