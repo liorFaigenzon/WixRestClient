@@ -237,7 +237,7 @@ $(function() {
                     <label for="timeInput" class="col-xs-4"><h4>Load map:</h4></label>
                     <div id="Load" class="input-field col-xs-8">
                         <input type="button" value="Load" class="btn btn-default
-                        id="loadButton" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')" col-xs-4">
+                        id="loadButton" ng-click="GetGridByRestaurantId(10)" col-xs-4">
                     </div>
                 </div>
             </form>
@@ -297,11 +297,15 @@ $(function() {
 				<select ng-model="width" ng-options="width for width in sizes">
 				</select>
 			</div>
+			<div class="row">
             <div id="Save" style="color:black" class="input-field col-xs-4 col-xs-push-5 row">
-                <input type="button" value="Save" class="btn btn-default"><br>
+                <input type="button" value="Save" class="btn btn-default" ng-click="CreateNewGrid('10',0, 1, 'cool grid', 'true', length, width)"><br>
             </div><br>
+        </div>
+            	<div class="row">
 			<div id="Exit" class="input-field col-xs-4 col-xs-push-5 row" ng-click="isEdit = false">
                 <input type="button" value="Exit" class="btn btn-default"><br>
+            </div>
             </div>
             </form>
         </div>
@@ -345,8 +349,6 @@ $(function() {
         </div>
 		
         <div id="droppableContainer" class="col-xs-7">
-
-            <button id="checkGridRetrievel" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')">RetrieveDefaultGrid</button>
 		
 			<table>
                 <tr data-ng-repeat="row in cells  track by $index">
