@@ -74,136 +74,12 @@ wixRestClientApp.factory("droppableData", function () {
 
 
 wixRestClientApp.controller("MainController", 
-	["$scope", "draggable_tables","draggable_chairs","draggableArray", "draggable_misc", "droppableData", "$timeout",
-	function ($scope, draggable_tables, length,width,draggable_chairs, draggable_misc,draggableArray, droppableData,$timeout) {
+	["$scope", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
+	function ($scope, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
 
-	$scope.cells = [
-        []
-    ];
-    $scope.sizes = [];
-
-    makeSizes();
-
-    $scope.length = $scope.sizes[0];
-    $scope.width = $scope.sizes[0];
-	
-    $scope.$watch('[width,length]', makeMap, true);
-
-    function makeMap() {
-        var cols = $scope.width,
-            rows = $scope.length;
-		console.log('makeMap');
-        $scope.cells = matrix(rows, cols, 'cell');
-    }
-
-    function matrix(rows, cols, defaultValue) {
-		// code from here http://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
-        
-		var maps = [{
-				ID: "1",
-				X: 12,
-				Y: 12,
-				NAME: "Default",
-				DESCRIBE:"DEFAULT MAP MATHER FUCKER BITCH"
-			}];
-		
-		rows = maps[0].X;
-		cols = maps[0].Y;
-		
-		var takenBitches = [
-		{
-			ID: "1",
-			mapId: "1",
-			X: 5,
-			Y: 5,
-			photoId: "1",
-		},{
-			ID: "2",
-			mapId: "1",
-			X: 6,
-			Y: 5,
-			photoId: "1",
-		},{
-			ID: "3",
-			mapId: "1",
-			X: 4,
-			Y: 5,
-			photoId: "1",
-		},{
-			ID: "4",
-			mapId: "1",
-			X: 5,
-			Y: 4,
-			photoId: "2",
-		}];
-		
-		var photos = [
-		{
-			ID: "1",
-			NAME: "table",
-			PATH:"table.png"
-		},{
-		ID: "2",
-			NAME: "chair",
-			PATH:"chair1.png"
-		}];
-		
-		var orders = [
-		{
-			ID: "1",
-			takenBitchesId:"1",
-			From: "08/6/16 23:00",
-			To:"09/6/16 00:00"
-		}];
-		
-		var arr = [[]];
-
-        // Creates all lines:
-        for (var i = 0; i < rows; i++) {
-
-            // Creates an empty line
-            arr[i] = [];
-
-            // Adds cols to the empty line:
-            arr[i] = new Array(cols);
-
-            for (var j = 0; j < cols; j++) {
-                // Initializes:
-                //arr[i][j] = defaultValue;
-				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg"};
-				arr[i][j].boxShadow = "0";
-				
-            }
-        }
-
-		
-		
-		
-		//Load map bitch (for map 1)
-	    for (var j = 0; j < takenBitches.length; j++) {
-                // Initializes:
-                //arr[i][j] = defaultValue;
-				arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[0].NAME, img: photos[0].PATH};
-		}
-		
-		//Apply order to map 
-		for (var j = 0; j < orders.length; j++) {
-                // Initializes:
-				(arr[takenBitches[j].X][takenBitches[j].Y]).boxShadow = "inset 0px 0px 0px 3px red";
-
-		}
-		
-        return arr;
-    }
-
-    makeMap();
-
-    function makeSizes() {
-        for (var i = 0; i < 10; i++) {
-            $scope.sizes.push(i + 3);
-        }
-    }
+   
     
+
 
 	//------------
     $scope.draggableArray_tables = draggable_tables;
@@ -291,12 +167,11 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
         scope: {},
         link: function ($scope, $elem, $attr) {
             var backgroundImage = $attr.backgroundimage;
-		    var backgroundShadow = $attr.backgroundshadow;
+
             $elem.addClass("droppable");
             $elem.attr("data-answerimage", backgroundImage);
             $elem.css({
-                backgroundImage: "url(img/" + backgroundImage + ")",
-				boxShadow:backgroundShadow
+                backgroundImage: "url(img/" + backgroundImage + ")"
             });
             $elem.droppable({
                 accept: ".draggable",
@@ -310,3 +185,16 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
     }
 }]); ///
 
+wixRestClientApp.directive("accordion", function() {
+	return {
+		restrict: "EA",
+		link: function($scope, $elem, $attr) {
+			$elem.on("click", ".link", function() {
+				$(this).next().slideToggle();
+				$(this).parent().toggleClass("open");
+			});
+			
+			
+		}
+	};
+});

@@ -14,10 +14,12 @@ app.controller('OrderController', ['$scope', '$http',
 			$scope.Orders = null;
 			
 			var httpMethod = 'GET';
+			
 			var urlWithParameters = $scope.url + '/' + gridId;
 			
 			$http(
 			{
+				
 				method: httpMethod,
 				url: urlWithParameters
 			}).
@@ -35,7 +37,7 @@ app.controller('OrderController', ['$scope', '$http',
 			
 		};
 		
-		$scope.CreateNewOrder = function(gridID, tableNum, customerID, numOfPpl, reservationTime){
+		$scope.CreateNewOrder = function(gridID, tableNum, customerName, phoneNum, numOfPpl, reservationTime){
 		
 			$scope.code = null;
 			$scope.response = null;
@@ -43,7 +45,44 @@ app.controller('OrderController', ['$scope', '$http',
 			$scope.Grid = null;
 			
 			var httpMethod = 'POST';
-			var urlWithParameters = $scope.url + '/' + gridID + '/' + tableNum + '/' + customerID + '/' + numOfPpl + '/' + reservationTime;
+			var urlWithParameters = $scope.url + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
+
+
+			$http(
+			{
+				method: httpMethod,
+				url: $scope.url + '/CreateNewOrder',
+				data: {
+				GridID:gridID ,
+				TableNumber:tableNum,
+				CustomerID:phoneNum,
+				NumOfPeople:numOfPpl
+				}
+			}).
+			then(function (response){
+				$scope.status = response.status;
+				$scope.responseOnSaving = { Response: response.data };
+
+			}, function (response) {
+			
+				$scope.data = response.data || "Request failed";
+				$scope.status = response.status;
+			
+			});
+			
+		};
+
+		$scope.GetOrdersByGridAndDate = function(gridId){
+		
+			var localUrl = 'http://localhost:54603/api/GetAdminOrders';
+
+			$scope.code = null;
+			$scope.response = null;
+			
+			$scope.Grid = null;
+			
+			var httpMethod = 'GET';
+			var urlWithParameters = localUrl + '/' + gridId;
 			
 			$http(
 			{
@@ -53,7 +92,9 @@ app.controller('OrderController', ['$scope', '$http',
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
-
+				$scope.orders = response.data;
+				var data = $scope.orders;
+				$scope.tableParams = new NgTableParams({}, { dataset: $scope.orders });
 			}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
