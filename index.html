@@ -51,25 +51,7 @@
 				else {
 					document.getElementById(id).style.boxShadow = '';
 				}
-			}    
-
-			if (document.getElementById(id).style.backgroundImage.includes('table'))
-			{
-				if (document.getElementById(id).style.boxShadow == '') {
-					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px r';
-					var para = document.createElement("p");
-					var node = document.createTextNode(id);
-					para.appendChild(node);
-					var element = document.getElementById("mySelect");
-					if (para.value != "") {
-						//element.appendChild(para);
-						//selections.push(id);
-					}
-				}
-				else {
-					document.getElementById(id).style.boxShadow = '';
-				}
-			}         			
+			}           
         }
    
     </script>
