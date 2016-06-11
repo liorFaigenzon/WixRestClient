@@ -43,7 +43,7 @@ app.controller('OrderController', ['$scope', '$http',
 			$scope.Grid = null;
 			
 			var httpMethod = 'POST';
-			var urlWithParameters = $scope.url + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
+			//var urlWithParameters = $scope.url + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
 
 
 			$http(

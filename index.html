@@ -241,7 +241,7 @@ $(function() {
                     <label for="timeInput" class="col-xs-4"><h4>Load map:</h4></label>
                     <div id="Load" class="input-field col-xs-8">
                         <input type="button" value="Load" class="btn btn-default
-                        id=" loadButton" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')" col-xs-4">
+                        id="loadButton" ng-click="GetGridByRestaurantId(10)" col-xs-4">
                     </div>
                 </div>
             </form>
@@ -376,10 +376,12 @@ $(function() {
 
             <button id="checkGridRetrievel" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')">RetrieveDefaultGrid</button>
 		
+        <div id="droppableContainer" class="col-xs-7">
+		
 			<table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-						<div onclick="selectChair(id)" id="{{cell.id}}"  dropme data-name="{{cell.img}}" ng-model="cell" backgroundimage="{{cell.img}}"></td>
+						<div onclick="selectChair(id)" id="{{cell.id}}"  dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></td>
                 </tr>
             <table />
             <!--<table>
