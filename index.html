@@ -51,7 +51,25 @@
 				else {
 					document.getElementById(id).style.boxShadow = '';
 				}
-			}           
+			}   
+			   if (document.getElementById(id).style.backgroundImage.includes('table'))
+			{
+				if (document.getElementById(id).style.boxShadow == '') {
+					var table = id;
+					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px red';
+					var para = document.createElement("p");
+					var node = document.createTextNode(id);
+					para.appendChild(node);
+					var element = document.getElementById("mySelect");
+					if (para.value != "") {
+						//element.appendChild(para);
+						//selections.push(id);
+					}
+				}
+				else {
+					document.getElementById(id).style.boxShadow = '';
+				}
+			}       
         }
    
     </script>
@@ -267,7 +285,7 @@ $(function() {
                     <label for="lblReserve" class="pull-left"><h4>Reserve:</h4></label>
                 </div>
                 <div id="Reserve" class="input-field row">
-                    <input type="button" onclick="reserve()" value="Reserve" class="btn btn-default col-xs-4 col-xs-push-4"><br>
+                    <input type="button" onclick="reserve()"  value="Reserve" class="btn btn-default col-xs-4 col-xs-push-4" ng-click="CreateNewOrder(gridId,'1','daniel','050','3','4546444')"><br>
 					 <form action="#someurl" id="mySelect" class="col-xs-12" ></form><br>
                 </div>
             </form>
@@ -353,7 +371,7 @@ $(function() {
 			<table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-						<div onclick="selectChair(id)" id="{{cell.id}}"  dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></td>
+						<div onclick="selectChair(id)" ng-click="cell.boxShadow='inset 0px 0px 0px 3px red'" id="{{cell.id}}"  dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></td>
                 </tr>
             <table />
             <!--<table>
@@ -364,9 +382,6 @@ $(function() {
                 </tr>
                 <table />-->
         </div>
-		<div id="try1" class="col-xs-7">
-					<button id="checkOrder" ng-click="CreateNewOrder('1','1','daniel','050','3','4546444')"> OrderCheck</button>
-		</div>
     </div>
 
 </body><!--body-->

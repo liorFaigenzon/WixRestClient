@@ -78,7 +78,7 @@ wixRestClientApp.controller("MainController",
         $scope.length = 12;
         $scope.width = 12;
 
-        $scope.$watch('[width,length]');
+        $scope.$watch('[width,length]', makeMap, true);
 	
 		$scope.Gridurl = 'http://localhost:54603/api/grids';
 		
@@ -114,6 +114,7 @@ wixRestClientApp.controller("MainController",
 				$scope.width = response.data.YLen;
 				$scope.Items = response.data.Items;
 				makeMap();
+				$scope.gridId = response.data.gridId;
 			}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
@@ -141,7 +142,7 @@ wixRestClientApp.controller("MainController",
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
-
+				$scope.gridId = response.data.gridId;
 			var index = 0;
 			var takenPlaces = [];
        		 for (var i = 0; i < $scope.length; i++) {
@@ -335,7 +336,7 @@ wixRestClientApp.controller("MainController",
             for (var j = 0; j < cols; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[i][j] ={id:i+"-"+j+"-"+maps[0].ID+"-"+photos[0].ID,name: "square", img: "square.jpg"};
+				arr[i][j] ={id:i+"-"+j+"-"+maps[0].ID+"-"+photos[0].ID,name: "square", img: "square.jpg", TableNum: "0"};
 				arr[i][j].boxShadow = "0";
 				
             }
@@ -344,7 +345,7 @@ wixRestClientApp.controller("MainController",
 		for (var j = 0; j < $scope.Items.length; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].X+"-"+$scope.Items[j].Y,name: "Table", img: "table.png"};
+				arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
 		}
 		
 		
@@ -408,7 +409,16 @@ wixRestClientApp.controller("MainController",
 			$scope.response = null;
 			
 			$scope.Grid = null;
-			
+			var takenPlaces = [];
+       		 for (var i = 0; i < $scope.length; i++) {
+            	for (var j = 0; j < $scope.width; j++) {
+	                // Initializes:
+	                //arr[i][j] = defaultValue;
+					if ($scope.cells[i][j].boxShadow == "inset 0px 0px 0px 3px red") {
+						tableNum=$scope.cells[i][j].id;
+						}
+		        	}
+		        }
 			var httpMethod = 'POST';
 			var urlWithParameters = $scope.OrderUrl + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
 
@@ -416,7 +426,7 @@ wixRestClientApp.controller("MainController",
 			$http(
 			{
 				method: httpMethod,
-				url: $scope.url + '/CreateNewOrder',
+				url: $scope.OrderUrl + '/CreateNewOrder',
 				data: {
 				GridID:gridID ,
 				TableNumber:tableNum,
@@ -427,6 +437,8 @@ wixRestClientApp.controller("MainController",
 			then(function (response){
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
+							var index = 0;
+			
 
 			}, function (response) {
 			
