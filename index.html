@@ -7,8 +7,7 @@
     <script src="js/underscore-min.js"></script>
     <script src="js/app.js"></script>
 	
-	<script src="Controllers/GridController.js"></script>
-	<script src="Controllers/OrderController.js"></script>
+	<script src="Controllers/MainController.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -255,7 +254,8 @@ $(function() {
                 <div class="row" ng-hide="false">
                     <label for="timeInput" class="col-xs-4"><h4>Load map:</h4></label>
                     <div id="Load" class="input-field col-xs-8">
-                        <input type="button" value="Load" class="btn btn-default  col-xs-4">
+                        <input type="button" value="Load" class="btn btn-default
+                        id="loadButton" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')" col-xs-4">
                     </div>
                 </div>
             </form>
@@ -335,7 +335,7 @@ $(function() {
 
 				
 					<li >
-						<div class="link"><i class="fa fa-code"></i>Manger<i class="fa fa-chevron-down"></i></div>
+						<div class="link"><i class="fa fa-code"></i>Manager<i class="fa fa-chevron-down"></i></div>
 						<ul class="submenu">
 							
 						</ul>
@@ -353,7 +353,7 @@ $(function() {
 						</ul>
 					</li>	
 					<li>
-						<div class="link"><i class="fa fa-code"></i>Statics<i class="fa fa-chevron-down"></i></div>
+						<div class="link"><i class="fa fa-code"></i>Statistics<i class="fa fa-chevron-down"></i></div>
 						<ul class="submenu">
 							<!--<div>
 								<li><a href="#"></a></li> 
@@ -364,7 +364,7 @@ $(function() {
 
         </div>
 		
-        <div id="droppableContainer" ng-controller="GridController" class="col-xs-7">
+        <div id="droppableContainer" class="col-xs-7">
 
             <button id="checkGridRetrievel" ng-click="GetGridByUserNameAndPassword('yuval','yuvalpass')">RetrieveDefaultGrid</button>
 		
@@ -382,7 +382,7 @@ $(function() {
                 </tr>
                 <table />-->
         </div>
-		<div id="try1" ng-controller="OrderController" class="col-xs-7">
+		<div id="try1" class="col-xs-7">
 					<button id="checkOrder" ng-click="CreateNewOrder('1','1','daniel','050','3','4546444')"> OrderCheck</button>
 		</div>
     </div>
