@@ -409,19 +409,22 @@ wixRestClientApp.controller("MainController",
 			$scope.response = null;
 			
 			$scope.Grid = null;
-			var takenPlaces = [];
-       		 for (var i = 0; i < $scope.length; i++) {
-            	for (var j = 0; j < $scope.width; j++) {
-	                // Initializes:
-	                //arr[i][j] = defaultValue;
-					if ($scope.cells[i][j].boxShadow == "inset 0px 0px 0px 3px red") {
-						tableNum=$scope.cells[i][j].id;
-						}
-		        	}
-		        }
+            // lior what is this code? 
+			//var takenPlaces = [];
+       		// for (var i = 0; i < $scope.length; i++) {
+            //	for (var j = 0; j < $scope.width; j++) {
+	        //        // Initializes:
+	        //        //arr[i][j] = defaultValue;
+			//		if ($scope.cells[i][j].boxShadow == "inset 0px 0px 0px 3px red") {
+			//			tableNum=$scope.cells[i][j].id;
+			//			}
+		    //    	}
+		    //    }
 			var httpMethod = 'POST';
-			var urlWithParameters = $scope.OrderUrl + '/' + gridID + '/' + tableNum + '/' + customerName + '/' + phoneNum + '/'+ numOfPpl + '/' + reservationTime;
-
+			phoneNum = document.getElementById("phonetxt").value;
+			numOfPpl = document.getElementById("quantitytxt").value;
+            // lior put the table number in tableNum
+		    //tableNum = 
 
 			$http(
 			{
