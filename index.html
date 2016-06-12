@@ -40,7 +40,10 @@
             if (document.getElementById(id).style.backgroundImage.includes('chair'))
 			{
 				if (document.getElementById(id).style.boxShadow == '') {
-					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
+					//Mark element stage
+					//document.getElementById(id).style.backgroundColor = 'green';
+    				//document.getElementById(id).style.opacity = '0.5'
+					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px green';
 					var para = document.createElement("p");
 					var node = document.createTextNode(id);
 					para.appendChild(node);
@@ -58,7 +61,7 @@
 			{
 				if (document.getElementById(id).style.boxShadow == '') {
 					var table = id;
-					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px red';
+					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
 					var para = document.createElement("p");
 					var node = document.createTextNode(id);
 					para.appendChild(node);
