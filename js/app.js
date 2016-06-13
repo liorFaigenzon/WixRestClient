@@ -111,7 +111,7 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
     return {
         restrict: "A",
         replace: true,
-        scope: {},
+        // scope: {},
         link: function ($scope, $elem, $attr) {
             var backgroundImage = $attr.backgroundimage;
             var backgroundShadow = $attr.backgroundshadow;
@@ -126,6 +126,7 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
                 drop: function (event, ui) {
                     var droppedElem = ui.draggable;
                     var myAnswer = $(this).attr("data-answerdata");
+                    $scope.cell.img= droppedElem.attr("backgroundimage");
                     $(this).css("background-image", "url(img/" + droppedElem.attr("backgroundimage") + ")");
                 }
             })

@@ -149,7 +149,7 @@ wixRestClientApp.controller("MainController",
             	for (var j = 0; j < $scope.width; j++) {
 	                // Initializes:
 	                //arr[i][j] = defaultValue;
-					if ($scope.cells[i][j].name != "square") {
+					if ($scope.cells[i][j].img != "square.jpg") {
 						var item = { gridId:response.data,
 									tableNumber:index,
 									capacity:0,
@@ -275,32 +275,6 @@ wixRestClientApp.controller("MainController",
 		rows = maps[0].X;
 		cols = maps[0].Y;
 		
-		var takenBitches = [
-		{
-			ID: "1",
-			mapId: "1",
-			X: 5,
-			Y: 5,
-			photoId: "1",
-		},{
-			ID: "2",
-			mapId: "1",
-			X: 6,
-			Y: 5,
-			photoId: "1",
-		},{
-			ID: "3",
-			mapId: "1",
-			X: 4,
-			Y: 5,
-			photoId: "1",
-		},{
-			ID: "4",
-			mapId: "1",
-			X: 5,
-			Y: 4,
-			photoId: "2",
-		}];
 		
 		var photos = [
 		{
@@ -336,7 +310,7 @@ wixRestClientApp.controller("MainController",
             for (var j = 0; j < cols; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[i][j] ={id:i+"-"+j+"-"+maps[0].ID+"-"+photos[0].ID,name: "square", img: "square.jpg", TableNum: "0"};
+				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg", TableNum: "0"};
 				arr[i][j].boxShadow = "0";
 				
             }
@@ -345,8 +319,14 @@ wixRestClientApp.controller("MainController",
 		for (var j = 0; j < $scope.Items.length; j++) {
                 // Initializes:
                 //arr[i][j] = defaultValue;
-				arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
-		}
+		 if ($scope.Items[j].TableNumber !== undefined)
+                {
+					arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
+				}
+				else
+				{
+						arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Chair", img: "chair1.png"};
+				}}
 		
 		
 		//Load map bitch (for map 1)
