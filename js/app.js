@@ -124,8 +124,6 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
             $elem.droppable({
                 accept: ".draggable",
                 drop: function (event, ui) {
-                    //takenPlaces.push({x:$(this).attr("Id").split("-")[0],y:$(this).attr("Id")(this).attr("Id").split("-")[1]})
-                    //$(this).attr("data-name").value="table";
                     var droppedElem = ui.draggable;
                     var myAnswer = $(this).attr("data-answerdata");
                     $(this).css("background-image", "url(img/" + droppedElem.attr("backgroundimage") + ")");
