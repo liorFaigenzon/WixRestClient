@@ -113,6 +113,7 @@ wixRestClientApp.controller("MainController",
 				$scope.length = response.data.XLen;
 				$scope.width = response.data.YLen;
 				$scope.Items = response.data.Items;
+				$scope.SimpleItems = response.data.simpleItems;
 				makeMap();
 				$scope.gridId = response.data.gridId;
 			}, function (response) {
@@ -150,20 +151,33 @@ wixRestClientApp.controller("MainController",
 	                // Initializes:
 	                //arr[i][j] = defaultValue;
 					if ($scope.cells[i][j].img != "square.jpg") {
-						var item = { gridId:response.data,
-									tableNumber:index,
-									capacity:0,
-									isSmokingAllowed:'false',
+						if ($scope.cells[i][j].img.includes("table"))
+						{
+							var item = { gridId:response.data,
+										tableNumber:index,
+										capacity:0,
+										isSmokingAllowed:'false',
+										xCoord:i,
+										yCoord:j,
+										xLength:1,
+										yLength:1
+									};
+								index++;
+								$scope.CreateNewTable(item.gridId,item.tableNumber,item.capacity,item.isSmokingAllowed,item.xCoord,item.yCoord,item.xLength,item.yLength);
+					
+						}
+						else
+						{
+							var item = { gridId:response.data,
 									xCoord:i,
-									yCoord:j,
-									xLength:1,
-									yLength:1
+									yCoord:j
 								};
-						index++;
-						$scope.CreateNewTable(item.gridId,item.tableNumber,item.capacity,item.isSmokingAllowed,item.xCoord,item.yCoord,item.xLength,item.yLength);
-		            	}
-		        	}
-		        }
+							$scope.CreateNewGridItem(item.gridId, 1, item.xCoord, item.yCoord,$scope.cells[i][j].img.split('.')[0]);
+		            	
+						}
+					}
+	        	}
+	        }
 				//$scope.CreateNewTable
 
 			}, function (response) {
@@ -316,18 +330,24 @@ wixRestClientApp.controller("MainController",
             }
         }
 
-		for (var j = 0; j < $scope.Items.length; j++) {
-                // Initializes:
-                //arr[i][j] = defaultValue;
-		 if ($scope.Items[j].TableNumber !== undefined)
-                {
-					arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
-				}
-				else
-				{
-						arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Chair", img: "chair1.png"};
-				}}
-		
+
+        if ($scope.Items !== "undefined")
+        {
+			for (var j = 0; j < $scope.Items.length; j++) 
+            {
+				arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
+			}
+		}
+
+		if ($scope.SimpleItems !== "undefined")
+        {
+			for (var j = 0; j < $scope.SimpleItems.length; j++) 
+			{
+				arr[$scope.SimpleItems[j].xCoord][$scope.SimpleItems[j].yCoord] ={id:$scope.SimpleItems[j].xCoord+"-"+$scope.SimpleItems[j].yCoord,name: $scope.SimpleItems[j].Name, img: $scope.SimpleItems[j].Name+".png"};
+				//arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Chair", img: "chair1.png"};
+			}
+			
+		}
 		
 		//Load map bitch (for map 1)
 	    //for (var j = 0; j < takenBitches.length; j++) {
@@ -467,6 +487,36 @@ wixRestClientApp.controller("MainController",
 		//////////////////// Table contoller
 		$scope.TableUrl = 'http://localhost:54603/api/Tables';
 		
+		$scope.GridItemUrl = 'http://localhost:54603/api/GridItems';
+
+		$scope.CreateNewGridItem = function(gridId, itemTypeId, xCoord, yCoord, name){
+		
+			$scope.code = null;
+			$scope.response = null;
+			
+			$scope.Grid = null;
+			
+			var httpMethod = 'POST';
+			var urlWithParameters = $scope.GridItemUrl + '/' + gridId + '/' + itemTypeId + '/' + xCoord + '/' + yCoord + '/' + name;
+			
+			$http(
+			{
+				method: httpMethod,
+				url: urlWithParameters
+			}).
+			then(function (response){
+				$scope.status = response.status;
+				$scope.responseOnSaving = { Response: response.data };
+
+			}, function (response) {
+			
+				$scope.data = response.data || "Request failed";
+				$scope.status = response.status;
+			
+			});
+			
+		};
+
 		$scope.GetTablesByGridId = function (gridId){
 		
 			$scope.code = null;
