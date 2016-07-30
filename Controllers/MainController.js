@@ -79,6 +79,7 @@ wixRestClientApp.controller("MainController",
         $scope.width = 12;
 
         $scope.$watch('[width,length]', makeMap, true);
+
 	
 		$scope.Gridurl = 'http://localhost:54603/api/grids';
 		
@@ -100,7 +101,7 @@ wixRestClientApp.controller("MainController",
 			$scope.Grid = null;
 			
 			var httpMethod = 'GET';
-			var urlWithParameters = $scope.Gridurl + '/' + restaurantId;
+			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value;;
 			
 			$http(
 			{
@@ -131,7 +132,8 @@ wixRestClientApp.controller("MainController",
 			$scope.response = null;
 			
 			$scope.Grid = null;
-			
+			//date = "Date(" + document.getElementById("mapSaveDate").value + ")";
+			date = document.getElementById("mapSaveDate").value;
 			var httpMethod = 'POST';
 			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + date + '/' + gridType + '/' + name + '/' + isDefault + '/' + xlen + '/' + ylen;
 			
@@ -146,10 +148,12 @@ wixRestClientApp.controller("MainController",
 				$scope.gridId = response.data.gridId;
 			var index = 0;
 			var takenPlaces = [];
+			
        		 for (var i = 0; i < $scope.length; i++) {
             	for (var j = 0; j < $scope.width; j++) {
 	                // Initializes:
-	                //arr[i][j] = defaultValue;
+            	    //arr[i][j] = defaultValue;
+            	   
 					if ($scope.cells[i][j].img != "square.jpg") {
 						if ($scope.cells[i][j].img.includes("table"))
 						{
@@ -217,6 +221,16 @@ wixRestClientApp.controller("MainController",
 
 		};
 
+		$scope.selectThis = function (value) {
+		    if (value != 'inset 0px 0px 0px 3px red')
+		    {
+		        if (boxShadow == '0')
+		        { boxShadow = 'inset 0px 0px 0px 3px blue' }
+		        else
+		        { boxShadow = '0' }
+		    }
+		}
+
 		$scope.PutGrid = function (gridId, grid) {
 
 		    $scope.code = null;
@@ -254,18 +268,27 @@ wixRestClientApp.controller("MainController",
 		    console.log('makeMap');
 		    ClearMap();
 		    $scope.cells = matrix(rows, cols, 'cell');
-            makeSizes();
+		    //$window.location.reload();
+		    makeSizes();
 
 		}
 
-		function ClearMap(){
-			$scope.cells = [[]];
+		function ClearMap() {
+		    //document.getElementById("droppableContainer").innerHTML = "";
+		    $scope.cells = [[]];
+		   
 		}
 
 
 
-		  function makeSizes() {
-			for (var i = 0; i < $scope.length; i++) {
+		function makeSizes() {
+		    var index = 12;
+		    if ($scope.Items !== undefined)
+		    { 
+		        index = $scope.length;
+		    }
+		  
+		    for (var i = 0; i < index; i++) {
 				$scope.sizes.push(i + 3);
 			}
 		}
@@ -331,15 +354,20 @@ wixRestClientApp.controller("MainController",
         }
 
 
-        if ($scope.Items !== "undefined")
+        if ($scope.Items !== undefined)
         {
 			for (var j = 0; j < $scope.Items.length; j++) 
-            {
-				arr[$scope.Items[j].X][$scope.Items[j].Y] ={id:$scope.Items[j].TableNumber,name: "Table", img: "table.png"};
+			{
+			    var boxShadow = "0";
+			    if ($scope.Items[j].Taken != false)
+			    {
+			        boxShadow="inset 0px 0px 0px 3px red";
+			    }
+			    arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png", boxShadow: boxShadow };
 			}
 		}
 
-		if ($scope.SimpleItems !== "undefined")
+		if ($scope.SimpleItems !== undefined)
         {
 			for (var j = 0; j < $scope.SimpleItems.length; j++) 
 			{
@@ -409,17 +437,15 @@ wixRestClientApp.controller("MainController",
 			$scope.response = null;
 			
 			$scope.Grid = null;
-            // lior what is this code? 
-			//var takenPlaces = [];
-       		// for (var i = 0; i < $scope.length; i++) {
-            //	for (var j = 0; j < $scope.width; j++) {
-	        //        // Initializes:
-	        //        //arr[i][j] = defaultValue;
-			//		if ($scope.cells[i][j].boxShadow == "inset 0px 0px 0px 3px red") {
-			//			tableNum=$scope.cells[i][j].id;
-			//			}
-		    //    	}
-		    //    }
+       		 for (var i = 0; i < $scope.length; i++) {
+            	for (var j = 0; j < $scope.width; j++) {
+	                // Initializes:
+	                //arr[i][j] = defaultValue;
+					if ($scope.cells[i][j].boxShadow == "inset 0px 0px 0px 3px blue") {
+						tableNum=$scope.cells[i][j].id;
+						}
+		        	}
+		        }
 			var httpMethod = 'POST';
 			phoneNum = document.getElementById("phonetxt").value;
 			numOfPpl = document.getElementById("quantitytxt").value;

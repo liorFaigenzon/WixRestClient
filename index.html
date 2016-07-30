@@ -40,7 +40,7 @@
             if (document.getElementById(id).style.backgroundImage.includes('chair'))
 			{
 				if (document.getElementById(id).style.boxShadow == '') {
-					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
+					//document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
 					var para = document.createElement("p");
 					var node = document.createTextNode(id);
 					para.appendChild(node);
@@ -52,27 +52,10 @@
 				}
 				else {
 					document.getElementById(id).style.boxShadow = '';
-				}
-			}   
-			   if (document.getElementById(id).style.backgroundImage.includes('table'))
-			{
-				if (document.getElementById(id).style.boxShadow == '') {
-					var table = id;
-					document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px red';
-					var para = document.createElement("p");
-					var node = document.createTextNode(id);
-					para.appendChild(node);
-					var element = document.getElementById("mySelect");
-					if (para.value != "") {
-						//element.appendChild(para);
-						//selections.push(id);
-					}
-				}
-				else {
-					document.getElementById(id).style.boxShadow = '';
-				}
+				    }
+			    }   
 			}       
-        }
+        
    
     </script>
 	
@@ -243,11 +226,17 @@ $(function() {
                         <h4>Enter a date:</h4>
                     </label>
                     <div id="dateInput" class="input-field col-xs-8">
-                        <input class="form-control" type="date" name="bday" max="2017-12-31">
+                        <input class="form-control" type="date" id="dinnerDate" max="2017-12-31">
                     </div>
                 </div>
                 <div class="row">
                     <label for="timeInput" class="col-xs-4"><h4>Enter time:</h4></label>
+                    <div id="timeInput" class="input-field col-xs-8">
+                        <input class="form-control" type="time">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="timeInput" class="col-xs-4"><h4>Enter end time:</h4></label>
                     <div id="timeInput" class="input-field col-xs-8">
                         <input class="form-control" type="time">
                     </div>
@@ -310,6 +299,12 @@ $(function() {
 						</ul>
 					</li>
 			<div style="color:black">
+                <div class="row">
+                    <label for="timeInput" class="col-xs-4"><h4>Enter map date time:</h4></label>
+                    <div id="xxx" class="input-field col-xs-8">
+                        <input id="mapSaveDate" class="form-control" type="date">
+                    </div>
+                </div>
 				<label>Length</label>
 				<select ng-model="length" ng-options="length for length in sizes"/>
 				</select>
@@ -319,7 +314,7 @@ $(function() {
 			</div>
 			<div class="row">
             <div id="Save" style="color:black" class="input-field col-xs-4 col-xs-push-5 row">
-                <input type="button" value="Save" class="btn btn-default" ng-click="CreateNewGrid('10',0, 1, 'cool grid', 'true', length, width)"><br>
+                <input type="button" value="Save" class="btn btn-default" ng-click="CreateNewGrid('10',0, 2, 'cool grid', 'true', length, width)"><br>
             </div><br>
         </div>
             	<div class="row">
@@ -345,7 +340,7 @@ $(function() {
 						</ul>
 					</li>	
 					<li>
-						<div class="link" ng-click="isEdit = true; isOrders = false"><i class="fa fa-code" ></i>Edit<i class="fa fa-chevron-down"></i></div>
+						<div class="link" ng-click="isEdit = true;makeMap()" isOrders = false"><i class="fa fa-code" ></i>Edit<i class="fa fa-chevron-down"></i></div>
 						<ul class="submenu">
 							
 						</ul>
@@ -369,7 +364,7 @@ $(function() {
         </div>
         <div id="=ordersTable" class="input-group" ng-show="isOrders">
             <!--<span class="input-group-addon">Filter</span>-->
-            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate('1')">RetrieveDefaultGridOrders</button>
+            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate('2')">RetrieveDefaultGridOrders</button>
 
             <!--<input id="filter" type="text" class="form-control" placeholder="Type here...">-->
             <table ng-table="tableParams" class="table" show-filter="true">
@@ -405,7 +400,7 @@ $(function() {
             <table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-                        <div onclick="selectChair(id)" ng-click="cell.boxShadow='inset 0px 0px 0px 3px red'" id="{{cell.id}}" dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}">
+                        <div onclick="selectChair(id)" id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}">
                     </td>
                 </tr>
                 <table />

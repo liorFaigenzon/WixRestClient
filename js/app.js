@@ -112,7 +112,11 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
         restrict: "A",
         replace: true,
         // scope: {},
-        link: function ($scope, $elem, $attr) {
+        link:
+            function ($scope, $elem, $attr) {
+            $scope.$watch("cells", function (newValue, oldValue) {
+                //This gets called when data changes.
+            
             var backgroundImage = $attr.backgroundimage;
             var backgroundShadow = $attr.backgroundshadow;
             $elem.addClass("droppable");
@@ -130,9 +134,43 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
                     $(this).css("background-image", "url(img/" + droppedElem.attr("backgroundimage") + ")");
                 }
             })
+            });
         }
     }
 }]); ///
+
+wixRestClientApp.directive('clickme', function () {
+    return {
+        restrict: "EA",
+        link: function ($scope, $elem, $attr) {
+            var clickingCallback = function () {
+                //alert('clicked!')
+
+                if ($scope.cell.img.includes('table')) {
+                    if ($scope.cell.boxShadow != 'inset 0px 0px 0px 3px red') {
+                        if ($scope.cell.boxShadow == "inset 0px 0px 0px 3px blue") {
+                            $scope.cell.boxShadow = '';
+                            $(this).css("box-Shadow", "none");
+                        }
+                        else {
+                            $scope.cell.boxShadow = 'inset 0px 0px 0px 3px blue'
+                            $(this).css("box-Shadow", "inset 0px 0px 0px 3px blue");
+                           
+                        }
+                    }
+                }
+            };
+            $elem.bind('click', clickingCallback);
+        }
+    }
+});
+
+//wixRestClientApp.config(function ($httpProvider) {
+//    $httpProvider.defaults.headers.common = {};
+//    $httpProvider.defaults.headers.post = {};
+//    $httpProvider.defaults.headers.put = {};
+//    $httpProvider.defaults.headers.patch = {};
+//});
 
 wixRestClientApp.directive("accordion", function() {
 	return {
