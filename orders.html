@@ -168,33 +168,33 @@
     <div ng-controller="OrderController">
 
         <div class="input-group">
-            <!--<span class="input-group-addon">Filter</span>-->
-            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate('1')">RetrieveDefaultGrid</button>
+            <span class="input-group-addon">Filter</span>
+            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate('6')">RetrieveDefaultGrid</button>
 
             <!--<input id="filter" type="text" class="form-control" placeholder="Type here...">-->
         </div>
         <table ng-table="tableParams" class="table" show-filter="true">
-            <tr ng-repeat="x in orders">
+            <tr >
                 <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">
-                    {{x.Date}}
+                  5
                 </td>
                 <td title="'TableNumber'" filter="{ TableNumber: 'text'}" sortable="'TableNumber'">
-                    {{x.TableNumber}}
+                    5
                 </td>
                 <td title="'FromTime'" filter="{ FromTime: 'text'}" sortable="'FromTime'">
-                    {{x.FromTime}}
+                    5
                 </td>
                 <td title="'ToTime'" filter="{ ToTime: 'text'}" sortable="'ToTime'">
-                    {{x.ToTime}}
+                 5
                 </td>
                 <td title="'NumOfPeople'" filter="{ NumOfPeople: 'text'}" sortable="'NumOfPeople'">
-                    {{x.NumOfPeople}}
+                  5
                 </td>
                 <td title="'CustomerName'" filter="{ CustomerName: 'text'}" sortable="'CustomerName'">
-                    {{x.CustomerName}}
+                  5
                 </td>
                 <td title="'CustomerPhone'" filter="{ CustomerPhone: 'text'}" sortable="'CustomerPhone'">
-                    {{x.CustomerPhone}}
+                   5
                 </td>
             </tr>
         </table>

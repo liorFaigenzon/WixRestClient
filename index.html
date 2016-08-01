@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.min.css">
+    <script src="https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/ng-table.js"></script>
@@ -21,45 +24,60 @@
     </style>
 	
     <script>
-	function reserve()
-{
-	var para = document.createElement("p");
-	var node = document.createTextNode("Table reserved!");
-	
-	para.appendChild(node);
-	var element = document.getElementById("mySelect");
-	while(element.firstChild){
-    element.removeChild(element.firstChild);
-}
-	if (para.value !="")
-	{
-		element.appendChild(para);
-	}
-}
-        function selectChair(id) {
-            if (document.getElementById(id).style.backgroundImage.includes('chair'))
-			{
-				if (document.getElementById(id).style.boxShadow == '') {
-					//document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
-					var para = document.createElement("p");
-					var node = document.createTextNode(id);
-					para.appendChild(node);
-					var element = document.getElementById("mySelect");
-					if (para.value != "") {
-						//element.appendChild(para);
-						//selections.push(id);
-					}
-				}
-				else {
-					document.getElementById(id).style.boxShadow = '';
-				    }
-			    }   
-			}       
-        
+
+//	function reserve()
+//{
+//	var para = document.createElement("p");
+//	var node = document.createTextNode("Table reserved!");
+
+//	para.appendChild(node);
+//	var element = document.getElementById("mySelect");
+//	while(element.firstChild){
+//    element.removeChild(element.firstChild);
+//}
+//	if (para.value !="")
+//	{
+//		element.appendChild(para);
+//	}
+//}
+//        function selectChair(id) {
+//            if (document.getElementById(id).style.backgroundImage.includes('chair'))
+//			{
+//				if (document.getElementById(id).style.boxShadow == '') {
+//					//document.getElementById(id).style.boxShadow = 'inset 0px 0px 0px 3px blue';
+//					var para = document.createElement("p");
+//					var node = document.createTextNode(id);
+//					para.appendChild(node);
+//					var element = document.getElementById("mySelect");
+//					if (para.value != "") {
+//						//element.appendChild(para);
+//						//selections.push(id);
+//					}
+//				}
+//				else {
+//					document.getElementById(id).style.boxShadow = '';
+//				    }
+//			    }
+//			}
    
     </script>
+   
+
 	
 		<style>
+            #myTable th {
+            border-bottom: 1px solid #d6d6d6;
+        }
+
+        #myTable tr:nth-child(even) {
+            background: #e9e9e9;
+        }
+
+        #ordersTable{
+             color: black;
+             background: white;
+        }
+
 * {
 	margin: 0;
 	padding: 0;
@@ -155,7 +173,7 @@ h1 a {
 .accordion li.default .submenu {display: block;}
 /**
  * Submenu
- -----------------------------*//
+ -----------------------------*/
  .submenu {
  	display: none;
  	background: rgba(50,150,240,1);
@@ -180,6 +198,18 @@ h1 a {
 
 </style>
 <script>
+
+    $(document).ready(function () {
+        (function ($) {
+            $('#filter').keyup(function () {
+                var rex = new RegExp($(this).val(), 'i');
+                $('.searchable tr').hide();
+                $('.searchable tr').filter(function () {
+                    return rex.test($(this).text());
+                }).show();
+            })
+        }(jQuery));
+    });
 $(function() {
 	var Accordion = function(el, multiple) {
 		this.el = el || {};
@@ -209,10 +239,9 @@ $(function() {
 </script>
 </head>
 <body data-ng-app="wixRestClientApp">
-    <input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> I am admin<br>
-	<div >
-	
-	</div>
+    <div>
+        I am admin<input type="checkbox" id="isAdmin" value="true" ng-model="isAdmin"> <br>
+    </div>
 
     <div class="outerContainer container" data-ng-controller="MainController">
 
@@ -232,13 +261,13 @@ $(function() {
                 <div class="row">
                     <label for="timeInput" class="col-xs-4"><h4>Enter time:</h4></label>
                     <div id="timeInput" class="input-field col-xs-8">
-                        <input class="form-control" type="time">
+                        <input class="form-control"  id="dinnerStart" type="time">
                     </div>
                 </div>
                 <div class="row">
                     <label for="timeInput" class="col-xs-4"><h4>Enter end time:</h4></label>
                     <div id="timeInput" class="input-field col-xs-8">
-                        <input class="form-control" type="time">
+                        <input class="form-control" id="dinnerEnd" type="time">
                     </div>
                 </div>
 
@@ -288,41 +317,43 @@ $(function() {
                     <h2 class="">Map Builder:</h2>
                 </p>
                 <ul id="accordion" class="accordion">
-				
-				
-					<li class="default open" data-ng-repeat="itemArray in draggableArray">
-						<div class="link"><i class="fa fa-code"></i>{{itemArray.key}}<i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							<div data-ng-repeat="item in itemArray.value">
-								<li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index" ></div></a></li> 
-							</div>
-						</ul>
-					</li>
-			<div style="color:black">
+
+
+                    <li class="default open" data-ng-repeat="itemArray in draggableArray">
+                        <div class="link"><i class="fa fa-code"></i>{{itemArray.key}}<i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu">
+                            <div data-ng-repeat="item in itemArray.value">
+                                <li><a href="#"><div dragme bgcolor="#fdcca0" left="20" data-name="{{item.name}}" backgroundimage="{{item.img}}" myindex="$index"></div></a></li>
+                            </div>
+                        </ul>
+                    </li>
+                
+            </form>
+		        <div style="color:black">
+                    <div class="row">
+                        <label for="timeInput" class="col-xs-4"><h4>Map date:</h4></label>
+                        <div id="xxx" class="input-field col-xs-8">
+                            <input id="mapSaveDate" class="form-control" type="date">
+                        </div>
+                    </div>
+			        <label>Length</label>
+			        <select ng-model="length"  ng-options="length for length in sizes" />
+			        </select>
+			        <label>Width</label>
+			        <select ng-model="width" ng-options="width for width in sizes" >
+			        </select>
+		        </div>
+			    <div class="row">
+                    <div id="Save" style="color:black" class="input-field col-xs-4 col-xs-push-5 row">
+                        <input type="button" value="Save" class="btn btn-default" ng-click="CreateNewGrid('10',0, 2, 'cool grid', 'true', length, width)"><br>
+                    </div><br>
+                </div>
                 <div class="row">
-                    <label for="timeInput" class="col-xs-4"><h4>Enter map date time:</h4></label>
-                    <div id="xxx" class="input-field col-xs-8">
-                        <input id="mapSaveDate" class="form-control" type="date">
+			        <div id="Exit" class="input-field col-xs-4 col-xs-push-5 row" ng-click="isEdit = false; ClearMap();">
+                        <input type="button" value="Exit" class="btn btn-default"><br>
                     </div>
                 </div>
-				<label>Length</label>
-				<select ng-model="length" ng-options="length for length in sizes"/>
-				</select>
-				<label>Width</label>
-				<select ng-model="width" ng-options="width for width in sizes">
-				</select>
-			</div>
-			<div class="row">
-            <div id="Save" style="color:black" class="input-field col-xs-4 col-xs-push-5 row">
-                <input type="button" value="Save" class="btn btn-default" ng-click="CreateNewGrid('10',0, 2, 'cool grid', 'true', length, width)"><br>
-            </div><br>
-        </div>
-            	<div class="row">
-			<div id="Exit" class="input-field col-xs-4 col-xs-push-5 row" ng-click="isEdit = false">
-                <input type="button" value="Exit" class="btn btn-default"><br>
-            </div>
-            </div>
-            </form>
+           
         </div>
 		
 		<div id="userContainer" class="col-xs-5" ng-show="isAdmin && !isEdit">
@@ -331,86 +362,84 @@ $(function() {
                     <h2 class="">Map Builder:</h2>
                 </p>
                 <ul id="accordion" class="accordion">
-
-				
-					<li >
-						<div class="link"><i class="fa fa-code"></i>Manager<i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							
-						</ul>
-					</li>	
-					<li>
-						<div class="link" ng-click="isEdit = true;makeMap()" isOrders = false"><i class="fa fa-code" ></i>Edit<i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							
-						</ul>
-					</li>	
-					<li>
-						<div class="link" ng-click="isOrders = true"><i class="fa fa-code"></i>Order<i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							
-						</ul>
-					</li>	
-					<li>
-						<div class="link"><i class="fa fa-code"></i>Statistics<i class="fa fa-chevron-down"></i></div>
-						<ul class="submenu">
-							<!--<div>
-								<li><a href="#"></a></li> 
-							</div>-->
-						</ul>
-					</li>
-				</ul>
-
+                    <li>
+                        <div class="link"><i class="fa fa-code"></i>Manager<i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu"></ul>
+                    </li>
+                    <li>
+                        <div class="link" ng-click="isEdit = true;ClearMap();isOrders = false"><i class="fa fa-code"></i>Edit<i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu"></ul>
+                    </li>
+                    <li>
+                        <div class="link" ng-click="isOrders = true"><i class="fa fa-code"></i>Order<i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu"></ul>
+                    </li>
+                    <li>
+                        <div class="link"><i class="fa fa-code"></i>Statistics<i class="fa fa-chevron-down"></i></div>
+                        <ul class="submenu">
+                        </ul>
+                    </li>
+                </ul>
+            </form>
         </div>
-        <div id="=ordersTable" class="input-group" ng-show="isOrders">
-            <!--<span class="input-group-addon">Filter</span>-->
-            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate('2')">RetrieveDefaultGridOrders</button>
 
-            <!--<input id="filter" type="text" class="form-control" placeholder="Type here...">-->
+        <div id="ordersTable" class="input-group" ng-show="isOrders">
+            Orders<br />
+            <input id="GridId" ng-model="mysearchGridId"  placeholder="Search For Grid Id...">
+            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate(mysearchGridId)">Retrieve Orders</button><br>
+            <input type="button" value="Exit" ng-click="isOrders=false;" class="btn btn-default"><br>
+            <input id="filter" type="text" class="form-control" placeholder="Type search here...">
             <table ng-table="tableParams" class="table" show-filter="true">
-                <tr ng-repeat="x in orders">
-                    <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">
-                        {{x.Date}}
-                    </td>
-                    <td title="'TableNumber'" filter="{ TableNumber: 'text'}" sortable="'TableNumber'">
-                        {{x.TableNumber}}
-                    </td>
-                    <td title="'FromTime'" filter="{ FromTime: 'text'}" sortable="'FromTime'">
-                        {{x.FromTime}}
-                    </td>
-                    <td title="'ToTime'" filter="{ ToTime: 'text'}" sortable="'ToTime'">
-                        {{x.ToTime}}
-                    </td>
-                    <td title="'NumOfPeople'" filter="{ NumOfPeople: 'text'}" sortable="'NumOfPeople'">
-                        {{x.NumOfPeople}}
-                    </td>
-                    <td title="'CustomerName'" filter="{ CustomerName: 'text'}" sortable="'CustomerName'">
-                        {{x.CustomerName}}
-                    </td>
-                    <td title="'CustomerPhone'" filter="{ CustomerPhone: 'text'}" sortable="'CustomerPhone'">
-                        {{x.CustomerPhone}}
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Table Number</th>
+                        <th>From Time</th>
+                        <th>To Time</th>
+                        <th>Num Of People</th>
+                        <th>Customer Name</th>
+                        <th>Customer Phone</th>
+                    </tr>
+                </thead>
+                <tbody class="searchable">
+                    <tr ng-repeat="x in orders">
+                        <td>
+                            {{x.Date}}
+                        </td>
+                        <td >
+                            {{x.TableNumber}}
+                        </td>
+                        <td>
+                            {{x.FromTime}}
+                        </td>
+                        <td >
+                            {{x.ToTime}}
+                        </td>
+                        <td>
+                            {{x.NumOfPeople}}
+                        </td>
+                        <td >
+                            {{x.CustomerName}}
+                        </td>
+                        <td>
+                            {{x.CustomerPhone}}
+                        </td>
+                    </tr>
+                </tbody>
+               
             </table>
-        </div>
+         </div>
 
-		
         <div id="droppableContainer" class="col-xs-7" ng-show="!isOrders">
 
             <table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-                        <div onclick="selectChair(id)" id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}">
+                        <div onclick="selectChair(id)" id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></div>
                     </td>
                 </tr>
-                <table />
-                <!--<table>
-                <tr data-ng-repeat="i in getNum(gridDef.rowNum)">
-                    <td data-ng-repeat="j in getNum(gridDef.colNum)">
-                        <div onclick="selectChair(id)" id="{{i}}-{{j}}" dropme data-name="{{bgItem.name}}" backgroundimage="{{bgItem.img}}"></div>
-                    </td>
-                </tr>
-                <table />-->
+            </table>
+
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 app = angular.module('wixRestClientApp');
 
 wixRestClientApp.controller("MainController", 
-	["$scope", "$http", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
+	[ "$scope", "$http", "draggable_tables", "draggable_chairs", "draggableArray", "draggable_misc", "droppableData", "$timeout",
 	function ($scope, $http, orders, draggable_tables, length, width, draggable_chairs, draggable_misc, draggableArray, droppableData, $timeout) {
 
 	//------------
@@ -75,8 +75,8 @@ wixRestClientApp.controller("MainController",
         ];
         $scope.sizes = [];
 
-        $scope.length = 12;
-        $scope.width = 12;
+        $scope.length = 0;
+        $scope.width = 0;
 
         $scope.$watch('[width,length]', makeMap, true);
 
@@ -86,11 +86,8 @@ wixRestClientApp.controller("MainController",
 		$scope.GetGridByUserNameAndPassword = function (userName, password){
 
 		    $scope.Grid = $scope.dataFromServer.Grid;
-		    $scope.length = 12;
-		    $scope.width = 12;
 
 		    makeMap();
-		    makeSizes();
 		};
 
 		$scope.GetGridByRestaurantId = function(restaurantId){
@@ -101,7 +98,8 @@ wixRestClientApp.controller("MainController",
 			$scope.Grid = null;
 			
 			var httpMethod = 'GET';
-			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value;;
+		    //" "+ document.getElementById("dinnerEnd").value
+			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value + '/' + document.getElementById("dinnerStart").value.replace(":", "-") + '/' + document.getElementById("dinnerEnd").value.replace(":", "-");
 			
 			$http(
 			{
@@ -116,7 +114,7 @@ wixRestClientApp.controller("MainController",
 				$scope.Items = response.data.Items;
 				$scope.SimpleItems = response.data.simpleItems;
 				makeMap();
-				$scope.gridId = response.data.gridId;
+				$scope.gridId = response.data.Id;
 			}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
@@ -146,6 +144,7 @@ wixRestClientApp.controller("MainController",
 				$scope.status = response.status;
 				$scope.responseOnSaving = { Response: response.data };
 				$scope.gridId = response.data.gridId;
+				alert("Grid create success")
 			var index = 0;
 			var takenPlaces = [];
 			
@@ -259,27 +258,24 @@ wixRestClientApp.controller("MainController",
 			});
 
 		};
-
+		$scope.ClearMap = function () {
+		    $scope.cells = [[]];
+		    $scope.Items = undefined;
+		    $scope.SimpleItems = undefined;
+		    $scope.length = 0;
+		    $scope.width = 0;
+		}
 
 
 		function makeMap() {
 		    var cols = $scope.width,
                 rows = $scope.length;
 		    console.log('makeMap');
-		    ClearMap();
-		    $scope.cells = matrix(rows, cols, 'cell');
-		    //$window.location.reload();
-		    makeSizes();
-
-		}
-
-		function ClearMap() {
-		    //document.getElementById("droppableContainer").innerHTML = "";
 		    $scope.cells = [[]];
-		   
+		    $scope.cells = matrix(rows, cols, 'cell');
 		}
 
-
+         makeSizes();
 
 		function makeSizes() {
 		    var index = 12;
@@ -293,45 +289,9 @@ wixRestClientApp.controller("MainController",
 			}
 		}
 		function matrix(rows, cols, defaultValue) {
-		// code from here http://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
-        
-		var mapsDates = [{
-				ID: "1",
-				Date: "09/06/16",
-				mapId: "1"
-			}];
+		//rows = maps[0].X;
+		//cols = maps[0].Y;
 		
-		var maps = [{
-				ID: "1",
-				X: $scope.length,
-				Y: $scope.width,
-				NAME: "Default",
-				DESCRIBE:"DEFAULT MAP MATHER FUCKER BITCH"
-			}];
-		
-		rows = maps[0].X;
-		cols = maps[0].Y;
-		
-		
-		var photos = [
-		{
-			ID: "1",
-			NAME: "table",
-			PATH:"table.png"
-		},{
-		ID: "2",
-			NAME: "chair",
-			PATH:"chair1.png"
-		}];
-		
-		var orders = [
-		{
-			ID: "1",
-			takenBitchesId:"1",
-			customerId:"1",
-			From: "08/6/16 23:00",
-			To:"09/6/16 00:00"
-		}];
 		
 		var arr = [[]];
 
@@ -358,12 +318,16 @@ wixRestClientApp.controller("MainController",
         {
 			for (var j = 0; j < $scope.Items.length; j++) 
 			{
-			    var boxShadow = "0";
-			    if ($scope.Items[j].Taken != false)
+			   
+			    if ($scope.Items[j].Taken == false)
 			    {
-			        boxShadow="inset 0px 0px 0px 3px red";
+			        arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png"};
 			    }
-			    arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png", boxShadow: boxShadow };
+			    else
+			    {
+			        arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png", boxShadow: "inset 0px 0px 0px 3px red" };
+			    }
+			  
 			}
 		}
 
@@ -377,20 +341,7 @@ wixRestClientApp.controller("MainController",
 			
 		}
 		
-		//Load map bitch (for map 1)
-	    //for (var j = 0; j < takenBitches.length; j++) {
-                // Initializes:
-                //arr[i][j] = defaultValue;
-		//		arr[takenBitches[j].X][takenBitches[j].Y] ={id:takenBitches[j].X+"-"+takenBitches[j].Y,name: photos[0].NAME, img: photos[0].PATH};
-		//}
-		
-		//Apply order to map 
-		//for (var j = 0; j < orders.length; j++) {
-                // Initializes:
-		//		(arr[takenBitches[j].X][takenBitches[j].Y]).boxShadow = "inset 0px 0px 0px 3px red";
-		//		(arr[takenBitches[j].X][takenBitches[j].Y]).id = "Taken"
 
-		//}
 		
         return arr;
     }
@@ -433,6 +384,7 @@ wixRestClientApp.controller("MainController",
 		
 		$scope.CreateNewOrder = function(gridID, tableNum, customerName, phoneNum, numOfPpl, reservationTime){
 		
+		    gridID = $scope.gridId;
 			$scope.code = null;
 			$scope.response = null;
 			
@@ -449,9 +401,8 @@ wixRestClientApp.controller("MainController",
 			var httpMethod = 'POST';
 			phoneNum = document.getElementById("phonetxt").value;
 			numOfPpl = document.getElementById("quantitytxt").value;
-            // lior put the table number in tableNum
-		    //tableNum = 
-
+			Name = document.getElementById("nametxt").value;
+			Customerid = Name + "-" + phoneNum;
 			$http(
 			{
 				method: httpMethod,
@@ -459,12 +410,15 @@ wixRestClientApp.controller("MainController",
 				data: {
 				GridID:gridID ,
 				TableNumber:tableNum,
-				CustomerID:phoneNum,
-				NumOfPeople:numOfPpl
+				CustomerInfo: Customerid,
+                NumOfPeople:numOfPpl,
+                FromTime: document.getElementById("dinnerDate").value + " " + document.getElementById("dinnerStart").value,
+                ToTime: document.getElementById("dinnerDate").value + " " + document.getElementById("dinnerEnd").value
 				}
 			}).
 			then(function (response){
-				$scope.status = response.status;
+			    $scope.status = response.status;
+			    alert("Reserve success")
 				$scope.responseOnSaving = { Response: response.data };
 							var index = 0;
 			
