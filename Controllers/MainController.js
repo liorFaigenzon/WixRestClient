@@ -97,9 +97,31 @@ wixRestClientApp.controller("MainController",
 			
 			$scope.Grid = null;
 			
+			
+			
+			var dinnerStart= document.getElementById("dinnerStart").value;
+			if (dinnerStart != "")
+			{
+				dinnerStart = dinnerStart.replace(":", "-");
+			}
+			else
+			{
+				dinnerStart = "00-00";
+			}
+			
+			var dinnerEnd= document.getElementById("dinnerEnd").value;
+			if (dinnerEnd != "")
+			{
+				dinnerEnd = dinnerEnd.replace(":", "-");
+			}
+			else
+			{
+				dinnerEnd = "23-59";
+			}
+			
 			var httpMethod = 'GET';
 		    //" "+ document.getElementById("dinnerEnd").value
-			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value + '/' + document.getElementById("dinnerStart").value.replace(":", "-") + '/' + document.getElementById("dinnerEnd").value.replace(":", "-");
+			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value + '/' + dinnerStart + '/' + dinnerEnd;
 			
 			$http(
 			{
@@ -124,6 +146,58 @@ wixRestClientApp.controller("MainController",
 			
 		};
 		
+		
+		$scope.UpdateGrid  = function(restaurantId){
+		
+			// for (var i = 0; i < $scope.length; i++) {
+			//	for (var j = 0; j < $scope.width; j++) {
+					//delete $scope.cells[i][j].boxShadow; "inset 0px 0px 0px 3px red"
+				//	$scope.cells[i][j].boxShadow ="inset 0px 0px 0px 3px red";
+				//}	
+			//}
+			//$scope.apply();
+			$scope.code = null;
+			$scope.response = null;
+			
+			$scope.Grid = null;
+
+			var dinnerStart= "00-00";	
+			var dinnerEnd="23-59";
+			var date = "01.01.1900";
+			if ($scope.mapSaveDate !== null)
+			{
+				date = $scope.mapSaveDate.toLocaleDateString()
+			}
+
+			
+			var httpMethod = 'GET';
+		    //" "+ document.getElementById("dinnerEnd").value
+			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + date + '/' + dinnerStart + '/' + dinnerEnd;
+			
+			$http(
+			{
+				method: httpMethod,
+				url: urlWithParameters
+			}).
+			then(function (response){
+				$scope.status = response.status;
+				$scope.responseOnSaving = { Response: response.data };
+				$scope.length = response.data.XLen;
+				$scope.width = response.data.YLen;
+				$scope.Items = response.data.Items;
+				$scope.SimpleItems = response.data.simpleItems;
+				makeMap();
+				$scope.gridId = response.data.Id;
+			}, function (response) {
+				
+				$scope.data = response.data || "Request failed";
+				$scope.status = response.status;
+			
+			});
+			
+		};
+		
+		
 		$scope.CreateNewGrid = function(restaurantId, date, gridType, name, isDefault, xlen, ylen){
 		
 			$scope.code = null;
@@ -145,45 +219,9 @@ wixRestClientApp.controller("MainController",
 				$scope.responseOnSaving = { Response: response.data };
 				$scope.gridId = response.data.gridId;
 				alert("Grid create success")
-			var index = 0;
 			var takenPlaces = [];
-			
-       		 for (var i = 0; i < $scope.length; i++) {
-            	for (var j = 0; j < $scope.width; j++) {
-	                // Initializes:
-            	    //arr[i][j] = defaultValue;
-            	   
-					if ($scope.cells[i][j].img != "square.jpg") {
-						if ($scope.cells[i][j].img.includes("table"))
-						{
-							var item = { gridId:response.data,
-										tableNumber:index,
-										capacity:0,
-										isSmokingAllowed:'false',
-										xCoord:i,
-										yCoord:j,
-										xLength:1,
-										yLength:1
-									};
-								index++;
-								$scope.CreateNewTable(item.gridId,item.tableNumber,item.capacity,item.isSmokingAllowed,item.xCoord,item.yCoord,item.xLength,item.yLength);
-					
-						}
-						else
-						{
-							var item = { gridId:response.data,
-									xCoord:i,
-									yCoord:j
-								};
-							$scope.CreateNewGridItem(item.gridId, 1, item.xCoord, item.yCoord,$scope.cells[i][j].img.split('.')[0]);
-		            	
-						}
-					}
-	        	}
-	        }
-				//$scope.CreateNewTable
-
-			}, function (response) {
+			$scope.DeleteTable(response.data) ;
+						}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
 				$scope.status = response.status;
@@ -191,6 +229,8 @@ wixRestClientApp.controller("MainController",
 			});
 			
 		};
+		
+	
 
 		$scope.DeleteGrid = function (gridId) {
 
@@ -259,6 +299,7 @@ wixRestClientApp.controller("MainController",
 
 		};
 		$scope.ClearMap = function () {
+			$scope.mapSaveDate = null;
 		    $scope.cells = [[]];
 		    $scope.Items = undefined;
 		    $scope.SimpleItems = undefined;
@@ -308,7 +349,7 @@ wixRestClientApp.controller("MainController",
                 // Initializes:
                 //arr[i][j] = defaultValue;
 				arr[i][j] ={id:i+"-"+j,name: "square", img: "square.jpg", TableNum: "0"};
-				arr[i][j].boxShadow = "0";
+				//arr[i][j].boxShadow = "0";
 				
             }
         }
@@ -321,11 +362,11 @@ wixRestClientApp.controller("MainController",
 			   
 			    if ($scope.Items[j].Taken == false)
 			    {
-			        arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png"};
+			        arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png" ,TableNum: $scope.Items[j].TableNumber};
 			    }
 			    else
 			    {
-			        arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png", boxShadow: "inset 0px 0px 0px 3px red" };
+			        arr[$scope.Items[j].X][$scope.Items[j].Y] = { id: $scope.Items[j].TableNumber, name: "Table", img: "table.png", boxShadow: "inset 0px 0px 0px 3px red",TableNum: $scope.Items[j].TableNumber };
 			    }
 			  
 			}
@@ -527,6 +568,37 @@ wixRestClientApp.controller("MainController",
 			
 		};
 		
+		$scope.DeleteTable = function (gridId) {
+
+		    $scope.code = null;
+		    $scope.response = null;
+
+		    $scope.Grid = null;
+
+		    var httpMethod = 'DELETE';
+		    var urlWithParameters = $scope.TableUrl + '/' + gridId;
+
+		    $http(
+			{
+			    method: httpMethod,
+			    url: urlWithParameters
+			}).
+			then(function (response) {
+			    $scope.status = response.status;
+			    $scope.responseOnSaving = { Response: response.data };
+				$scope.DeleteGridItem(gridId)
+			}
+			, function (response) {
+
+			    $scope.data = response.data || "Request failed";
+			    $scope.status = response.status;
+				
+
+			});
+
+		};
+		
+		
 		$scope.CreateNewTable = function(gridId, tableNumber, capacity, isSmokingAllowed, xCoord, yCoord, xLength, yLength){
 		
 			$scope.code = null;
@@ -552,6 +624,95 @@ wixRestClientApp.controller("MainController",
 				$scope.status = response.status;
 			
 			});
-			
 		};
+		
+		$scope.DeleteGridItem = function (gridId) {
+
+		    $scope.code = null;
+		    $scope.response = null;
+
+		    $scope.Grid = null;
+
+		    var httpMethod = 'DELETE';
+		    var urlWithParameters ='http://localhost:54603/api/GridItems' + '/' + gridId;
+
+		    $http(
+			{
+			    method: httpMethod,
+			    url: urlWithParameters
+			}).
+			then(function (response) {
+			    $scope.status = response.status;
+			    $scope.responseOnSaving = { Response: response.data };
+				
+			var takenPlaces = [];
+			
+			maxTableNum = 0;
+       		 for (var i = 0; i < $scope.length; i++) {
+            	for (var j = 0; j < $scope.width; j++) {
+					if(maxTableNum < $scope.cells[i][j].TableNumber)
+					{
+						maxTableNum = $scope.cells[i][j].id
+					}
+				}	
+			}
+			
+			var tableNum = maxTableNum;
+       		 for (var i = 0; i < $scope.length; i++) {
+            	for (var j = 0; j < $scope.width; j++) {
+	                // Initializes:
+            	    //arr[i][j] = defaultValue;
+            	   
+					if ($scope.cells[i][j].img != "square.jpg") {
+						if ($scope.cells[i][j].img.includes("table"))
+						{
+							
+							if ($scope.cells[i][j].boxShadow == 'inset 0px 0px 0px 3px red')
+							{
+								tableNum = $scope.cells[i][j].id;
+							}
+							else
+							{
+								tableNum = maxTableNum;
+								maxTableNum = maxTableNum+1;
+							}
+							
+							{
+								var item = { gridId:gridId,
+												tableNumber:tableNum,
+												capacity:0,
+												isSmokingAllowed:'false',
+												xCoord:i,
+												yCoord:j,
+												xLength:1,
+												yLength:1
+											};
+								$scope.CreateNewTable(item.gridId,item.tableNumber,item.capacity,item.isSmokingAllowed,item.xCoord,item.yCoord,item.xLength,item.yLength);
+							}
+					
+						}
+						else
+						{
+							var item = { gridId:gridId,
+									xCoord:i,
+									yCoord:j
+								};
+							$scope.CreateNewGridItem(item.gridId, 1, item.xCoord, item.yCoord,$scope.cells[i][j].img.split('.')[0]);
+		            	
+						}
+					}
+	        	}
+
+			}
+			}, function (response) {
+
+			    $scope.data = response.data || "Request failed";
+			    $scope.status = response.status;
+
+			});
+
+		};
+			
+		
+		
 }]);

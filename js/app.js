@@ -128,10 +128,13 @@ wixRestClientApp.directive("dropme", ["$timeout", function ($timeout) {
             $elem.droppable({
                 accept: ".draggable",
                 drop: function (event, ui) {
-                    var droppedElem = ui.draggable;
-                    var myAnswer = $(this).attr("data-answerdata");
-                    $scope.cell.img= droppedElem.attr("backgroundimage");
-                    $(this).css("background-image", "url(img/" + droppedElem.attr("backgroundimage") + ")");
+					if ($scope.cell.boxShadow != 'inset 0px 0px 0px 3px red')
+					{
+						var droppedElem = ui.draggable;
+						var myAnswer = $(this).attr("data-answerdata");
+						$scope.cell.img= droppedElem.attr("backgroundimage");
+						$(this).css("background-image", "url(img/" + droppedElem.attr("backgroundimage") + ")");
+					}
                 }
             })
             });

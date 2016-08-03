@@ -333,7 +333,7 @@ $(function() {
                     <div class="row">
                         <label for="timeInput" class="col-xs-4"><h4>Map date:</h4></label>
                         <div id="xxx" class="input-field col-xs-8">
-                            <input id="mapSaveDate" class="form-control" type="date">
+                            <input ng-model="mapSaveDate" id="mapSaveDate" class="form-control" type="date" ng-Change="UpdateGrid(10)">
                         </div>
                     </div>
 			        <label>Length</label>
@@ -343,7 +343,13 @@ $(function() {
 			        <select ng-model="width" ng-options="width for width in sizes" >
 			        </select>
 		        </div>
+				    <div class="row">
+                    <div id="Save" style="color:black" class="input-field col-xs-4 col-xs-push-5 row">
+                        <input type="button" value="Clear Map" class="btn btn-default" ng-click="ClearMap();"><br>
+                    </div><br>
+                </div>
 			    <div class="row">
+				
                     <div id="Save" style="color:black" class="input-field col-xs-4 col-xs-push-5 row">
                         <input type="button" value="Save" class="btn btn-default" ng-click="CreateNewGrid('10',0, 2, 'cool grid', 'true', length, width)"><br>
                     </div><br>
@@ -435,7 +441,7 @@ $(function() {
             <table>
                 <tr data-ng-repeat="row in cells  track by $index">
                     <td data-ng-repeat="cell in row track by $index">
-                        <div onclick="selectChair(id)" id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></div>
+                        <div  id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></div>
                     </td>
                 </tr>
             </table>
