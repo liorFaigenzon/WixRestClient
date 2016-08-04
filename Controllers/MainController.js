@@ -92,6 +92,7 @@ wixRestClientApp.controller("MainController",
 
 		$scope.GetGridByRestaurantId = function(restaurantId){
 		
+		$scope.isRouteLoading = true;
 			$scope.code = null;
 			$scope.response = null;
 			
@@ -137,11 +138,12 @@ wixRestClientApp.controller("MainController",
 				$scope.SimpleItems = response.data.simpleItems;
 				makeMap();
 				$scope.gridId = response.data.Id;
+				$scope.isRouteLoading = false;
 			}, function (response) {
 			
 				$scope.data = response.data || "Request failed";
 				$scope.status = response.status;
-			
+				$scope.isRouteLoading = false;
 			});
 			
 		};
@@ -149,13 +151,7 @@ wixRestClientApp.controller("MainController",
 		
 		$scope.UpdateGrid  = function(restaurantId){
 		
-			// for (var i = 0; i < $scope.length; i++) {
-			//	for (var j = 0; j < $scope.width; j++) {
-					//delete $scope.cells[i][j].boxShadow; "inset 0px 0px 0px 3px red"
-				//	$scope.cells[i][j].boxShadow ="inset 0px 0px 0px 3px red";
-				//}	
-			//}
-			//$scope.apply();
+			$scope.isRouteLoading = true;
 			$scope.code = null;
 			$scope.response = null;
 			
@@ -188,10 +184,12 @@ wixRestClientApp.controller("MainController",
 				$scope.SimpleItems = response.data.simpleItems;
 				makeMap();
 				$scope.gridId = response.data.Id;
+				$scope.isRouteLoading = false;
 			}, function (response) {
 				
 				$scope.data = response.data || "Request failed";
 				$scope.status = response.status;
+				$scope.isRouteLoading = false;
 			
 			});
 			
