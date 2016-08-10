@@ -144,6 +144,7 @@ wixRestClientApp.controller("MainController",
 				$scope.data = response.data || "Request failed";
 				$scope.status = response.status;
 				$scope.isRouteLoading = false;
+				$scope.cells = [[]];
 			});
 			
 		};
@@ -471,17 +472,16 @@ wixRestClientApp.controller("MainController",
 			
 		};
 
-		$scope.GetOrdersByGridAndDate = function(gridId){
+		$scope.GetOrdersByGridAndDate = function(orderDate){
 		
 			var localUrl = 'http://localhost:54603/api/GetAdminOrders';
 
 			$scope.code = null;
 			$scope.response = null;
-			
-			$scope.Grid = null;
-			
+			var date =orderDate.replace(/\./g, "-");	
 			var httpMethod = 'GET';
-			var urlWithParameters = localUrl + '/' + gridId;
+			//
+			var urlWithParameters = localUrl + '/' + date;
 			
 			$http(
 			{
@@ -645,7 +645,7 @@ wixRestClientApp.controller("MainController",
 				
 			var takenPlaces = [];
 			
-			maxTableNum = 0;
+			var maxTableNum = 0;
        		 for (var i = 0; i < $scope.length; i++) {
             	for (var j = 0; j < $scope.width; j++) {
 					if(maxTableNum < $scope.cells[i][j].TableNumber)

@@ -370,19 +370,19 @@ $(function() {
                 </p>
                 <ul id="accordion" class="accordion">
                     <li>
-                        <div class="link"><i class="fa fa-code"></i>Manager<i class="fa fa-chevron-down"></i></div>
+                        <div class="link">Manager</div>
                         <ul class="submenu"></ul>
                     </li>
                     <li>
-                        <div class="link" ng-click="isEdit = true;ClearMap();isOrders = false"><i class="fa fa-code"></i>Edit<i class="fa fa-chevron-down"></i></div>
+                        <div class="link" ng-click="isEdit = true;ClearMap();isOrders = false">Edit</div>
                         <ul class="submenu"></ul>
                     </li>
                     <li>
-                        <div class="link" ng-click="isOrders = true"><i class="fa fa-code"></i>Order<i class="fa fa-chevron-down"></i></div>
+                        <div class="link" ng-click="isOrders = true">Order</div>
                         <ul class="submenu"></ul>
                     </li>
                     <li>
-                        <div class="link"><i class="fa fa-code"></i>Statistics<i class="fa fa-chevron-down"></i></div>
+                        <div class="link">tatistics</div>
                         <ul class="submenu">
                         </ul>
                     </li>
@@ -392,8 +392,8 @@ $(function() {
 
         <div id="ordersTable" class="input-group" ng-show="isOrders">
             Orders<br />
-            <input id="GridId" ng-model="mysearchGridId"  placeholder="Search For Grid Id...">
-            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate(mysearchGridId)">Retrieve Orders</button><br>
+            <input id="orderDate" type="date" ng-model="mysearchOrderDate"  placeholder="Search For Grid Id...">
+            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate(mysearchOrderDate.toLocaleDateString())">Retrieve Orders</button><br>
             <input type="button" value="Exit" ng-click="isOrders=false;" class="btn btn-default"><br>
             <input id="filter" type="text" class="form-control" placeholder="Type search here...">
             <table ng-table="tableParams" class="table" show-filter="true">
@@ -438,15 +438,14 @@ $(function() {
          </div>
 
         <div id="droppableContainer" class="col-xs-7" ng-show="!isOrders">
-		<div class='col-lg-12' ng-if='isRouteLoading'><h1>Loading <i class='fa fa-cog fa-spin'></i></h1></div>
-            <table>
-                <tr data-ng-repeat="row in cells  track by $index">
-                    <td data-ng-repeat="cell in row track by $index">
-                        <div  id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></div>
-                    </td>
-                </tr>
-            </table>
-
+		<div class='col-lg-12' ng-if='isRouteLoading' style="z-index: -1"><h1>Loading <i class='fa fa-cog fa-spin'></i></h1></div>
+			<table>
+				<tr data-ng-repeat="row in cells  track by $index">
+					<td data-ng-repeat="cell in row track by $index">
+						<div  id="{{cell.id}}" clickme dropme data-name="{{cell.img}}" ng-model="cell" backgroundShadow="{{cell.boxShadow}}" backgroundimage="{{cell.img}}"></div>
+					</td>
+				</tr>
+			</table>	
         </div>
     </div>
 

@@ -148,20 +148,22 @@ wixRestClientApp.directive('clickme', function () {
         link: function ($scope, $elem, $attr) {
             var clickingCallback = function () {
                 //alert('clicked!')
-
-                if ($scope.cell.img.includes('table')) {
-                    if ($scope.cell.boxShadow != 'inset 0px 0px 0px 3px red') {
-                        if ($scope.cell.boxShadow == "inset 0px 0px 0px 3px blue") {
-                            $scope.cell.boxShadow = '';
-                            $(this).css("box-Shadow", "none");
-                        }
-                        else {
-                            $scope.cell.boxShadow = 'inset 0px 0px 0px 3px blue'
-                            $(this).css("box-Shadow", "inset 0px 0px 0px 3px blue");
-                           
-                        }
-                    }
-                }
+				if (!$scope.isAdmin)
+				{
+					if ($scope.cell.img.includes('table')) {
+						if ($scope.cell.boxShadow != 'inset 0px 0px 0px 3px red') {
+							if ($scope.cell.boxShadow == "inset 0px 0px 0px 3px blue") {
+								$scope.cell.boxShadow = '';
+								$(this).css("box-Shadow", "none");
+							}
+							else {
+								$scope.cell.boxShadow = 'inset 0px 0px 0px 3px blue'
+								$(this).css("box-Shadow", "inset 0px 0px 0px 3px blue");
+							   
+							}
+						}
+					}
+				}
             };
             $elem.bind('click', clickingCallback);
         }
