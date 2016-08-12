@@ -168,8 +168,7 @@ wixRestClientApp.controller("MainController",
 
 			
 			var httpMethod = 'GET';
-		    var httpMethod = 'GET';
-			var dateGoodFormat = document.getElementById("dinnerDate").value
+			var dateGoodFormat = document.getElementById("mapSaveDate").value
 			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + dateGoodFormat + '/' + dinnerStart + '/' + dinnerEnd;
 			
 			$http(
