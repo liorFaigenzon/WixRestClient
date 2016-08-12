@@ -119,8 +119,8 @@ wixRestClientApp.controller("MainController",
 			{
 				dinnerEnd = "23-59";
 			}
+			mapSaveDate
 			
-			var httpMethod = 'GET';
 		    //" "+ document.getElementById("dinnerEnd").value
 			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value + '/' + dinnerStart + '/' + dinnerEnd;
 			
@@ -168,8 +168,9 @@ wixRestClientApp.controller("MainController",
 
 			
 			var httpMethod = 'GET';
-		    //" "+ document.getElementById("dinnerEnd").value
-			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + date + '/' + dinnerStart + '/' + dinnerEnd;
+		    var httpMethod = 'GET';
+			var dateGoodFormat = document.getElementById("dinnerDate").value
+			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + dateGoodFormat + '/' + dinnerStart + '/' + dinnerEnd;
 			
 			$http(
 			{
