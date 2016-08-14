@@ -382,7 +382,7 @@ $(function() {
                         <ul class="submenu"></ul>
                     </li>
                     <li>
-                        <div class="link">tatistics</div>
+                        <div class="link">Statistics</div>
                         <ul class="submenu">
                         </ul>
                     </li>
@@ -435,6 +435,17 @@ $(function() {
                 </tbody>
                
             </table>
+            
+            <div class="row">
+                <label for="dateInputClustet" class="col-xs-4">
+                    <h4>Enter a date for cluster:</h4>
+                </label>
+                <div id="dateInputClustet" class="input-field col-xs-8">
+                    <input class="form-control" type="date" id="clusterDate" max="2017-12-31">
+                    <button id="GetCluster" ng-click="GetCluster(10)">Cluster</button>
+                    <label id="resultClsterString">Result Here</label>
+                </div>
+            </div>
          </div>
 
         <div id="droppableContainer" class="col-xs-7" ng-show="!isOrders">

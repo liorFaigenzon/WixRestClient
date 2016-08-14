@@ -123,7 +123,7 @@ wixRestClientApp.controller("MainController",
 			
 		    //" "+ document.getElementById("dinnerEnd").value
 			var urlWithParameters = $scope.Gridurl + '/' + restaurantId + '/' + document.getElementById("dinnerDate").value + '/' + dinnerStart + '/' + dinnerEnd;
-			
+			var httpMethod = 'GET';
 			$http(
 			{
 				method: httpMethod,
@@ -384,7 +384,38 @@ wixRestClientApp.controller("MainController",
 
 		
         return arr;
-    }
+		}
+
+		$scope.GetCluster = function (restaurantId) {
+
+		    $scope.isRouteLoading = true;
+		    $scope.code = null;
+		    $scope.response = null;
+		    $scope.result = null;
+
+		    var httpMethod = 'GET';
+		    var dateGoodFormat = document.getElementById("clusterDate").value
+		    var urlWithParameters = $scope.Gridurl + '/GetGridCluster/' + restaurantId + '/' + dateGoodFormat;
+
+		    $http(
+			{
+			    method: httpMethod,
+			    url: urlWithParameters
+			}).
+			then(function (response) {
+			    $scope.status = response.status;
+			    $scope.responseOnSaving = { Response: response.data };
+			    $scope.result = response.data;
+			    document.getElementById('resultClsterString').innerHTML = $scope.result;
+			}, function (response) {
+
+			    $scope.data = response.data || "Request failed";
+			    $scope.status = response.status;
+			    $scope.isRouteLoading = false;
+
+			});
+
+		};
 
 
 		///////////// order controller
