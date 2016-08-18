@@ -393,7 +393,7 @@ $(function() {
         <div id="ordersTable" class="input-group" ng-show="isOrders">
             Orders<br />
             <input id="orderDate" type="date" ng-model="mysearchOrderDate"  placeholder="Search For Grid Id...">
-            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate(mysearchOrderDate.toLocaleDateString())">Retrieve Orders</button><br>
+            <button id="checkGridRetrievel" ng-click="GetOrdersByGridAndDate()">Retrieve Orders</button><br>
             <input type="button" value="Exit" ng-click="isOrders=false;" class="btn btn-default"><br>
             <input id="filter" type="text" class="form-control" placeholder="Type search here...">
             <table ng-table="tableParams" class="table" show-filter="true">

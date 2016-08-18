@@ -503,13 +503,13 @@ wixRestClientApp.controller("MainController",
 			
 		};
 
-		$scope.GetOrdersByGridAndDate = function(orderDate){
+		$scope.GetOrdersByGridAndDate = function(){
 		
 			var localUrl = 'http://localhost:54603/api/GetAdminOrders';
 
 			$scope.code = null;
 			$scope.response = null;
-			var date =orderDate.replace(/\./g, "-");	
+			var date =document.getElementById('orderDate').value;
 			var httpMethod = 'GET';
 			//
 			var urlWithParameters = localUrl + '/' + date;
@@ -676,7 +676,7 @@ wixRestClientApp.controller("MainController",
 				
 			var takenPlaces = [];
 			
-			var maxTableNum = 0;
+			var maxTableNum = -1;
        		 for (var i = 0; i < $scope.length; i++) {
             	for (var j = 0; j < $scope.width; j++) {
 					if(maxTableNum < $scope.cells[i][j].TableNumber)
@@ -702,8 +702,8 @@ wixRestClientApp.controller("MainController",
 							}
 							else
 							{
-								tableNum = maxTableNum;
-								maxTableNum = maxTableNum+1;
+								tableNum = maxTableNum+1;
+								maxTableNum = maxTableNum;
 							}
 							
 							{
