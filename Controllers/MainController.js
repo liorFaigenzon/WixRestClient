@@ -703,7 +703,7 @@ wixRestClientApp.controller("MainController",
 							else
 							{
 								tableNum = maxTableNum+1;
-								maxTableNum = maxTableNum;
+								maxTableNum = tableNum;
 							}
 							
 							{
